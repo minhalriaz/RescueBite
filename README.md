@@ -1,2 +1,6 @@
 # RescueBite
-RescueBite is a web-based food donation management system that connects donors, NGOs, and riders to reduce food waste and distribute surplus food efficiently.A food donation management platform built with ReactJS, Laravel, and MySQL.
+## Project Pathway Diagram
+
+The complete application flow, page structure, food donation workflow, and planned features are available in the project pathway diagram.
+
+[View RescueBite Project Pathway Diagram](docs/Resque_Bite_Diagram.pdf)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const INITIAL_FOOD_POSTS = [
   {
@@ -45,7 +45,7 @@ const RESCUE_CATEGORIES = [
 export default function App() {
   const [activeTab, setActiveTab] = useState('food');
   const [filter, setFilter] = useState('All'); 
-  const [posts, setPosts] = useState(INITIAL_FOOD_POSTS);
+  const posts = INITIAL_FOOD_POSTS;
 
   const filteredPosts = posts.filter(post => {
     if (filter === 'All') return true;
@@ -67,13 +67,10 @@ export default function App() {
   };
 
   return (
-    // bg-[#F4F7F5] - Clean mint-white background, text-[#0D4436] - Deep emerald text
     <div className="min-h-screen bg-[#F4F7F5] text-[#0D4436] font-sans flex flex-col selection:bg-[#0F9F76] selection:text-white pb-24 md:pb-0">
       
-      {/* Global gradient blur  */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[400px] bg-gradient-to-r from-[#E6F5F0] via-[#FAF9F6] to-[#E6F5F0] blur-3xl pointer-events-none -z-10" />
 
-      {/* Desktop Navigation Bar */}
       <nav className="bg-white/90 backdrop-blur-md border-b border-[#E6ECE8] sticky top-0 z-50 shadow-[0_2px_15px_-5px_rgba(15,159,118,0.02)] hidden md:block">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => setActiveTab('food')}>
@@ -83,7 +80,6 @@ export default function App() {
             </span>
           </div>
           
-          {/* Menu Buttons */}
           <div className="flex items-center gap-8">
             <button 
               onClick={() => setActiveTab('food')}
@@ -105,7 +101,6 @@ export default function App() {
             </button>
             <button 
               onClick={() => setActiveTab('donate')}
-              // Vibrant mint green action button 
               className="bg-[#0F9F76] text-white text-xs font-black uppercase tracking-wider px-6 py-3.5 rounded-[1.25rem] hover:bg-[#0C8562] transition-all duration-300 shadow-[0_4px_15px_rgba(15,159,118,0.2)] active:scale-95"
             >
               Donate Surplus Food
@@ -120,7 +115,6 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Mobile Header */}
       <header className="bg-white/95 backdrop-blur-md border-b border-[#E6ECE8] p-4 sticky top-0 z-50 flex items-center justify-between md:hidden shadow-[0_1px_8px_rgba(0,0,0,0.01)]">
         <div className="flex items-center gap-2" onClick={() => setActiveTab('food')}>
           <span className="text-2xl">🍕</span>
@@ -129,16 +123,12 @@ export default function App() {
         <span className="text-[9px] bg-[#E6F5F0] text-[#0F9F76] font-extrabold px-3 py-1 rounded-full border border-[#CBECE2] tracking-wider">DHAKA</span>
       </header>
 
-      {/* Main Content */}
       <main className="flex-grow">
 
-        {/* 1. Food Listing Tab */}
         {activeTab === 'food' && (
           <div className="max-w-7xl mx-auto px-6 py-8">
             
-            {/* Fresh gradient hero card  */}
             <div className="relative bg-gradient-to-r from-[#0F9F76] to-[#0A805E] text-white rounded-[2.5rem] p-8 md:p-12 mb-12 overflow-hidden shadow-[0_20px_50px_-15px_rgba(15,159,118,0.25)]">
-              {/* Subtle dot pattern and organic glow */}
               <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#FFF_1.5px,transparent_1.5px)] [background-size:24px_24px]" />
               <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
               
@@ -155,7 +145,6 @@ export default function App() {
                   </p>
                 </div>
                 
-                {/* Metrics Stats */}
                 <div className="flex flex-row flex-wrap lg:flex-nowrap gap-6 md:gap-10 border-t lg:border-t-0 lg:border-l border-white/20 pt-6 lg:pt-0 lg:pl-10">
                   <div className="min-w-[100px]">
                     <div className="text-2xl md:text-3xl font-black text-white">12,450+</div>
@@ -173,14 +162,12 @@ export default function App() {
               </div>
             </div>
 
-            {/* Header and Filter Bar */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
               <div className="text-center md:text-left">
                 <h2 className="text-3xl font-extrabold text-[#0D4436] tracking-tight">Active Rescues</h2>
                 <p className="text-stone-400 font-medium text-sm mt-1">Real-time surplus edible food waiting to be collected.</p>
               </div>
               
-              {/* Vibrant Mint Filter Bar */}
               <div className="flex items-center justify-center gap-2 self-center md:self-auto text-xs font-bold bg-[#E6F5F0] p-1.5 rounded-2xl border border-[#CBECE2]">
                 <span className="text-[10px] font-black uppercase text-stone-400 px-2 tracking-wider">Filter:</span>
                 {['All', 'Available', 'Urgent'].map((item) => (
@@ -199,7 +186,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Food Card Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredPosts.map((post) => (
                 <div key={post.id} className="bg-white rounded-[2rem] overflow-hidden border border-[#E6ECE8] shadow-[0_8px_30px_-10px_rgba(15,159,118,0.03)] hover:shadow-[0_15px_35px_-8px_rgba(15,159,118,0.07)] hover:-translate-y-1 transition-all duration-300 group flex flex-col h-full">
@@ -248,7 +234,6 @@ export default function App() {
           </div>
         )}
 
-        {/* 2. All Services Tab */}
         {activeTab === 'services' && (
           <div className="max-w-5xl mx-auto px-6 py-12">
             <div className="text-center mb-12">
@@ -287,7 +272,6 @@ export default function App() {
           </div>
         )}
 
-        {/* 3. Donation Post Tab */}
         {activeTab === 'donate' && (
           <div className="max-w-xl mx-auto py-12 px-6">
             <div className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)]">
@@ -327,7 +311,6 @@ export default function App() {
           </div>
         )}
 
-        {/* 4. Volunteer Tab */}
         {activeTab === 'volunteer' && (
           <div className="max-w-xl mx-auto py-12 px-6">
             <div className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)]">
@@ -364,7 +347,6 @@ export default function App() {
           </div>
         )}
 
-        {/* 5. Profile Tab */}
         {activeTab === 'profile' && (
           <div className="max-w-md mx-auto py-12 px-6">
             <div className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)]">
@@ -391,10 +373,8 @@ export default function App() {
 
       </main>
 
-      {/* Mobile Bottom Navigation Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-[#E6F5F0] px-4 py-2.5 flex items-center justify-between md:hidden z-50 shadow-[0_-5px_25px_rgba(15,159,118,0.08)]">
         
-        {/* Food Tab */}
         <button 
           onClick={() => setActiveTab('food')} 
           className="flex flex-col items-center justify-center flex-1 py-1"
@@ -403,7 +383,6 @@ export default function App() {
           <span className={`text-[9px] font-black uppercase tracking-wider mt-1 ${activeTab === 'food' ? 'text-[#0F9F76]' : 'text-stone-400'}`}>Food</span>
         </button>
 
-        {/* All Services Tab */}
         <button 
           onClick={() => setActiveTab('services')} 
           className="flex flex-col items-center justify-center flex-1 py-1"
@@ -412,7 +391,6 @@ export default function App() {
           <span className={`text-[9px] font-black uppercase tracking-wider mt-1 ${activeTab === 'services' ? 'text-[#0F9F76]' : 'text-stone-400'}`}>Services</span>
         </button>
 
-        {/* Custom Action Plus Button */}
         <button 
           onClick={() => setActiveTab('donate')} 
           className="flex flex-col items-center justify-center -mt-8 bg-gradient-to-br from-[#0F9F76] to-[#0A805E] w-14 h-14 rounded-[1.25rem] shadow-[0_6px_20px_rgba(15,159,118,0.3)] border-4 border-[#F4F7F5] active:scale-95 transition-all duration-300"
@@ -420,7 +398,6 @@ export default function App() {
           <span className="text-white text-2xl font-black select-none">+</span>
         </button>
 
-        {/* Become Volunteer Tab */}
         <button 
           onClick={() => setActiveTab('volunteer')} 
           className="flex flex-col items-center justify-center flex-1 py-1"
@@ -429,7 +406,6 @@ export default function App() {
           <span className={`text-[9px] font-black uppercase tracking-wider mt-1 ${activeTab === 'volunteer' ? 'text-[#0F9F76]' : 'text-stone-400'}`}>Hero</span>
         </button>
 
-        {/* Profile Tab */}
         <button 
           onClick={() => setActiveTab('profile')} 
           className="flex flex-col items-center justify-center flex-1 py-1"
@@ -440,7 +416,6 @@ export default function App() {
 
       </div>
 
-      {/* Desktop Footer */}
       <footer className="bg-[#092B22] text-[#E6F5F0]/50 py-12 px-6 border-t border-[#061F18] hidden md:block">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div>

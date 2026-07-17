@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const INITIAL_FOOD_POSTS = [
   {
@@ -105,12 +106,12 @@ export default function App() {
             >
               Donate Surplus Food
             </button>
-            <button 
-              onClick={() => setActiveTab('profile')}
+            <Link 
+              to="/login"
               className="text-xs font-black uppercase tracking-wider text-stone-500 hover:text-[#0F9F76] border-2 border-stone-200 px-5 py-3 rounded-[1.25rem] hover:border-[#CBECE2] transition-all duration-300 bg-white"
             >
               Sign In
-            </button>
+            </Link>
           </div>
         </div>
       </nav>
@@ -406,13 +407,13 @@ export default function App() {
           <span className={`text-[9px] font-black uppercase tracking-wider mt-1 ${activeTab === 'volunteer' ? 'text-[#0F9F76]' : 'text-stone-400'}`}>Hero</span>
         </button>
 
-        <button 
-          onClick={() => setActiveTab('profile')} 
+        <Link 
+          to="/login" 
           className="flex flex-col items-center justify-center flex-1 py-1"
         >
           <span className={`text-xl transition-all duration-200 ${activeTab === 'profile' ? 'scale-110 opacity-100' : 'opacity-40'}`}>👤</span>
           <span className={`text-[9px] font-black uppercase tracking-wider mt-1 ${activeTab === 'profile' ? 'text-[#0F9F76]' : 'text-stone-400'}`}>Profile</span>
-        </button>
+        </Link>
 
       </div>
 

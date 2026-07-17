@@ -36,9 +36,13 @@ const menuItems = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen }) {
   return (
-    <aside className="hidden lg:flex w-64 bg-white border-r border-gray-200 flex-col justify-between shadow-sm">
+    <aside
+      className={`fixed lg:static top-0 left-0 z-50 h-screen w-64 bg-white border-r border-gray-200 shadow-lg transform transition-transform duration-300
+  ${isOpen ? "translate-x-0" : "-translate-x-full"}
+  lg:translate-x-0 lg:flex flex-col justify-between`}
+    >
 
       {/* Logo */}
       <div>

@@ -1,4 +1,5 @@
-import React from "react";
+import { useState } from "react";
+
 import Sidebar from "../components/dashboard/Sidebar";
 import Navbar from "../components/dashboard/Navbar";
 import HeroBanner from "../components/dashboard/HeroBanner";
@@ -22,26 +23,42 @@ const icons = [
 ];
 
 export default function DonorDashboard() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex">
 
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
+      />
 
       {/* Main Content */}
       <div className="flex-1">
 
         {/* Navbar */}
-        <Navbar />
+        <Navbar toggleSidebar={toggleSidebar} />
 
-        <main className="p-8">
+        <main className="p-4 md:p-6 lg:p-8">
 
-          {/* Hero */}
+          {/* Hero Banner */}
           <HeroBanner />
 
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
-
             {summaryData.map((item, index) => (
               <SummaryCard
                 key={item.id}
@@ -50,10 +67,9 @@ export default function DonorDashboard() {
                 icon={icons[index]}
               />
             ))}
-
           </div>
 
-          {/* Recent Posts */}
+          {/* Recent Food Posts */}
           <div className="mt-10">
             <RecentFoodPosts />
           </div>

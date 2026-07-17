@@ -1,4 +1,3 @@
-import React from "react";
 import FoodPostCard from "./FoodPostCard";
 import { recentPosts } from "../../data/donorData";
 

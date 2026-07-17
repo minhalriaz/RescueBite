@@ -1,4 +1,3 @@
-import React from "react";
 import { Plus, ArrowRight, HeartHandshake } from "lucide-react";
 
 export default function HeroBanner() {

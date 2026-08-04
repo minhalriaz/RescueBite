@@ -1,18 +1,25 @@
-# Laravel
-/backend/vendor/
-/backend/.env
-/backend/storage/*.key
+# Dependencies
+node_modules/
+apps/web/node_modules/
 
-# React
-/frontend/node_modules/
-/frontend/build/
+# Frontend build
+apps/web/dist/
+
+# Backend
+apps/api/vendor/
+apps/api/.env
 
 # Environment files
 .env
+.env.local
+.env.*.local
+!.env.example
 
-# IDE
+# Logs
+*.log
+
+# IDE and operating system
 .vscode/
 .idea/
-
-# OS
 .DS_Store
+Thumbs.db

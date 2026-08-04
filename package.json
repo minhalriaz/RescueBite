@@ -1,0 +1,15 @@
+{
+  "name": "rescuebite-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace=@rescuebite/web",
+    "build:web": "npm run build --workspace=@rescuebite/web",
+    "lint:web": "npm run lint --workspace=@rescuebite/web",
+    "preview:web": "npm run preview --workspace=@rescuebite/web"
+  }
+}

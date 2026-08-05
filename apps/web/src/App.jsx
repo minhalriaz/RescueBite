@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import HeroCarousel from './components/HeroCarousel';
 import { Pizza, Soup, Carrot, Home, Handshake, Bike, Backpack, Package, User } from "lucide-react";
 
 const INITIAL_FOOD_POSTS = [
@@ -73,7 +74,7 @@ export default function App() {
 
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[400px] bg-gradient-to-r from-[#E6F5F0] via-[#FAF9F6] to-[#E6F5F0] blur-3xl pointer-events-none -z-10" />
 
-      <nav className="bg-white/90 backdrop-blur-md border-b border-[#E6ECE8] sticky top-0 z-50 shadow-[0_2px_15px_-5px_rgba(15,159,118,0.02)] hidden md:block">
+      <nav className="bg-white/70 backdrop-blur-md border-b border-white/40 sticky top-0 z-50 hidden md:block">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => setActiveTab('food')}>
             <img src="/rescuebite-icon.svg" alt="RescueBite" className="h-9 w-auto group-hover:rotate-6 transition-transform duration-300" />
@@ -117,51 +118,20 @@ export default function App() {
         </div>
       </nav>
 
-      <header className="bg-white/95 backdrop-blur-md border-b border-[#E6ECE8] p-4 sticky top-0 z-50 flex items-center justify-between md:hidden shadow-[0_1px_8px_rgba(0,0,0,0.01)]">
+      <header className="bg-white/70 backdrop-blur-md border-b border-white/40 p-4 sticky top-0 z-50 flex items-center justify-between md:hidden">
         <div className="flex items-center gap-2" onClick={() => setActiveTab('food')}>
           <img src="/rescuebite-icon.svg" alt="RescueBite" className="h-7 w-auto" />
           <span className="font-extrabold text-lg text-[#0F9F76]">RescueBite</span>
         </div>
-        <span className="text-[9px] bg-[#E6F5F0] text-[#0F9F76] font-extrabold px-3 py-1 rounded-full border border-[#CBECE2] tracking-wider">DHAKA</span>
+        <span className="text-[9px] bg-white/80 text-[#0F9F76] font-extrabold px-3 py-1 rounded-full border border-white/60 tracking-wider">DHAKA</span>
       </header>
 
       <main className="flex-grow">
-
         {activeTab === 'food' && (
           <div className="max-w-7xl mx-auto px-6 py-8">
 
-            <div className="relative bg-gradient-to-r from-[#0F9F76] to-[#0A805E] text-white rounded-[2.5rem] p-8 md:p-12 mb-12 overflow-hidden shadow-[0_20px_50px_-15px_rgba(15,159,118,0.25)]">
-              <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#FFF_1.5px,transparent_1.5px)] [background-size:24px_24px]" />
-              <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
-
-              <div className="relative z-10 flex flex-col lg:flex-row justify-between lg:items-center gap-8">
-                <div className="max-w-xl">
-                  <span className="inline-flex items-center gap-1.5 bg-white/20 text-white text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider mb-4 border border-white/15">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#3DFFAA] animate-pulse" /> Live Rescue Operations
-                  </span>
-                  <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight md:leading-none mb-4">
-                    Every Meal Saved <br />is a Smile Added
-                  </h1>
-                  <p className="text-white/85 text-sm md:text-base font-medium leading-relaxed max-w-lg">
-                    Real-time surplus edible food waiting to be collected across Dhaka. Join the movement.
-                  </p>
-                </div>
-
-                <div className="flex flex-row flex-wrap lg:flex-nowrap gap-6 md:gap-10 border-t lg:border-t-0 lg:border-l border-white/20 pt-6 lg:pt-0 lg:pl-10">
-                  <div className="min-w-[100px]">
-                    <div className="text-2xl md:text-3xl font-black text-white">12,450+</div>
-                    <div className="text-[10px] md:text-xs font-bold tracking-wider uppercase text-white/70 mt-1">Meals Saved</div>
-                  </div>
-                  <div className="min-w-[100px]">
-                    <div className="text-2xl md:text-3xl font-black text-white">850+</div>
-                    <div className="text-[10px] md:text-xs font-bold tracking-wider uppercase text-white/70 mt-1">Volunteers</div>
-                  </div>
-                  <div className="min-w-[100px]">
-                    <div className="text-2xl md:text-3xl font-black text-white">150+</div>
-                    <div className="text-[10px] md:text-xs font-bold tracking-wider uppercase text-white/70 mt-1">Partners</div>
-                  </div>
-                </div>
-              </div>
+            <div className="mb-8">
+              <HeroCarousel />
             </div>
 
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
@@ -234,14 +204,14 @@ export default function App() {
         )}
 
         {activeTab === 'services' && (
-          <div className="max-w-5xl mx-auto px-6 py-12">
+          <div className="max-w-5xl mx-auto px-6 py-12 bg-gradient-to-br from-[#E6F5F0] via-[#D4EDE4] to-[#C8E6DC]">
             <div className="text-center mb-12">
-              <span className="inline-flex items-center gap-1.5 bg-[#E6F5F0] text-[#0F9F76] text-xs font-bold px-3 py-1.5 rounded-full border border-[#CBECE2] uppercase tracking-wider mb-3">
+              <span className="inline-flex items-center gap-1.5 bg-white text-[#0D4436] text-xs font-bold px-3 py-1.5 rounded-full border border-[#CBECE2] uppercase tracking-wider mb-3">
                 <Backpack size={14} />
                 Choose Your Segment
               </span>
               <h2 className="text-3xl font-extrabold text-[#0D4436] tracking-tight">Our Rescue Categories</h2>
-              <p className="text-sm text-stone-400 mt-2 max-w-md mx-auto">Explore surplus options tailored by source. Pick what fits your scope best.</p>
+              <p className="text-stone-500 text-sm mt-2 max-w-md mx-auto">Explore surplus options tailored by source. Pick what fits your scope best.</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -251,7 +221,7 @@ export default function App() {
                 <div
                   key={cat.id}
                   onClick={() => { alert(`Filtering by: ${cat.name}`); setActiveTab('food'); }}
-                  className="bg-white rounded-[2rem] p-6 border border-[#E6ECE8] shadow-[0_8px_25px_-10px_rgba(15,159,118,0.02)] hover:shadow-[0_12px_25px_-8px_rgba(15,159,118,0.08)] hover:border-[#CBECE2] hover:-translate-y-1 transition-all duration-300 text-center cursor-pointer group"
+                  className="bg-white rounded-[2rem] p-6 border border-[#E6ECE8] shadow-[0_8px_25px_-10px_rgba(15,159,118,0.06)] hover:shadow-[0_12px_25px_-8px_rgba(15,159,118,0.12)] hover:border-[#CBECE2] hover:-translate-y-1 transition-all duration-300 text-center cursor-pointer group"
                 >
                   <div className="relative w-16 h-16 bg-[#E6F5F0] rounded-2xl flex items-center justify-center mx-auto transition-transform duration-300 group-hover:scale-110">
                     {cat.badge && (
@@ -314,12 +284,12 @@ export default function App() {
         )}
 
         {activeTab === 'volunteer' && (
-          <div className="max-w-xl mx-auto py-12 px-6">
-            <div className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)]">
+          <div className="max-w-xl mx-auto py-12 px-6 bg-gradient-to-br from-[#E6F5F0] via-[#D4EDE4] to-[#C8E6DC]">
+            <div className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.06)]">
               <div className="text-center">
                 <Bike size={48} className="mx-auto text-[#0F9F76]" strokeWidth={1.5} />
                 <h2 className="text-3xl font-extrabold text-[#0D4436] tracking-tight mt-3">Become a Rescue Hero</h2>
-                <p className="text-stone-400 font-medium text-sm mt-2">Become the bridge between surplus food and the local families who need it.</p>
+                <p className="text-stone-500 font-medium text-sm mt-2">Become the bridge between surplus food and the local families who need it.</p>
               </div>
 
               <form className="mt-8 space-y-5" onSubmit={handleVolunteerSubmit}>

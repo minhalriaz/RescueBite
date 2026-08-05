@@ -1,3 +1,4 @@
+import { MapPin, Utensils } from "lucide-react";
 
 export default function FoodPostCard({
   title,
@@ -24,13 +25,15 @@ export default function FoodPostCard({
           {title}
         </h2>
 
-        <p className="mt-3 text-gray-500">
-          📍 {location}
-        </p>
+          <div className="flex items-center gap-1.5 text-gray-500">
+            <MapPin size={16} />
+            {location}
+          </div>
 
-        <p className="text-gray-500 mt-1">
-          🍽 {quantity}
-        </p>
+          <div className="flex items-center gap-1.5 text-gray-500 mt-1">
+            <Utensils size={16} />
+            {quantity}
+          </div>
 
         <span className="inline-block mt-4 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 font-medium">
           {status}

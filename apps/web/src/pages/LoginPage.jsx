@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -28,7 +29,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)]">
           <div className="text-center mb-8">
-            <span className="text-4xl">🔐</span>
+            <img src="/rescuebite-icon.svg" alt="RescueBite" className="h-12 w-12 mx-auto" />
             <h1 className="text-3xl font-extrabold text-[#0D4436] tracking-tight mt-3">Welcome Back</h1>
             <p className="text-stone-400 font-medium text-sm mt-2">Sign in to continue to RescueBite</p>
           </div>
@@ -62,7 +63,7 @@ export default function LoginPage() {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-lg p-1 hover:scale-110 transition-transform"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? '🙈' : '👁️'}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
               {errors.password && <p className="text-rose-500 text-xs font-bold mt-1.5 ml-1">{errors.password}</p>}

@@ -1,7 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 104" width="104" height="104">
   <!-- 
-    RescueBite Favicon
-    - Tight viewBox, thicker strokes for small-size legibility
+    RescueBite Icon
+    - Tight viewBox around the icon
+    - Partial ring + sprout in green #7CB342
+    - Slightly thicker strokes for small-size legibility
   -->
   <defs>
     <style>

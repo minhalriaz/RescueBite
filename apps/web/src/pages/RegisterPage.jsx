@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Gift, Handshake, Bike, UserPlus, Eye, EyeOff } from "lucide-react";
 
 const ROLES = [
-  { id: 'donor', label: 'Donor', icon: '🎁' },
-  { id: 'ngo', label: 'NGO', icon: '🤝' },
-  { id: 'volunteer', label: 'Volunteer', icon: '🚴' }
+  { id: 'donor', label: 'Donor', icon: Gift },
+  { id: 'ngo', label: 'NGO', icon: Handshake },
+  { id: 'volunteer', label: 'Volunteer', icon: Bike }
 ];
 
 export default function RegisterPage() {
@@ -51,7 +52,7 @@ export default function RegisterPage() {
       <div className="max-w-2xl mx-auto">
         <div className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)]">
           <div className="text-center mb-8">
-            <span className="text-4xl">🚀</span>
+            <UserPlus size={48} className="mx-auto text-[#0F9F76]" strokeWidth={1.5} />
             <h1 className="text-3xl font-extrabold text-[#0D4436] tracking-tight mt-3">Create Account</h1>
             <p className="text-stone-400 font-medium text-sm mt-2">Join the rescue movement today</p>
           </div>
@@ -98,23 +99,28 @@ export default function RegisterPage() {
             <div>
               <label className="block text-xs font-black text-stone-400 uppercase tracking-wider">I am a...</label>
               <div className="grid grid-cols-3 gap-3 mt-2">
-                {ROLES.map((role) => (
-                  <button
-                    key={role.id}
-                    type="button"
-                    onClick={() => setForm((prev) => ({ ...prev, role: role.id }))}
-                    className={`p-4 rounded-[1.25rem] border-2 text-center transition-all duration-200 ${
-                      form.role === role.id
-                        ? 'border-[#0F9F76] bg-[#E6F5F0] shadow-md'
-                        : 'border-[#E6ECE8] bg-white hover:border-[#CBECE2]'
-                    }`}
-                  >
-                    <span className="text-2xl block mb-1">{role.icon}</span>
-                    <span className={`text-xs font-black uppercase tracking-wider ${form.role === role.id ? 'text-[#0F9F76]' : 'text-stone-500'}`}>
-                      {role.label}
-                    </span>
-                  </button>
-                ))}
+                {ROLES.map((role) => {
+                  const RoleIcon = role.icon;
+                  return (
+                    <button
+                      key={role.id}
+                      type="button"
+                      onClick={() => setForm((prev) => ({ ...prev, role: role.id }))}
+                      className={`p-4 rounded-[1.25rem] border-2 text-center transition-all duration-200 ${
+                        form.role === role.id
+                          ? 'border-[#0F9F76] bg-[#E6F5F0] shadow-md'
+                          : 'border-[#E6ECE8] bg-white hover:border-[#CBECE2]'
+                      }`}
+                    >
+                      <div className="flex justify-center mb-1">
+                        <RoleIcon size={24} className="text-[#0F9F76]" />
+                      </div>
+                      <span className={`text-xs font-black uppercase tracking-wider ${form.role === role.id ? 'text-[#0F9F76]' : 'text-stone-500'}`}>
+                        {role.label}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
               {errors.role && <p className="text-rose-500 text-xs font-bold mt-1.5 ml-1">{errors.role}</p>}
             </div>
@@ -136,7 +142,7 @@ export default function RegisterPage() {
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-lg p-1 hover:scale-110 transition-transform"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    {showPassword ? '🙈' : '👁️'}
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
                 {errors.password && <p className="text-rose-500 text-xs font-bold mt-1.5 ml-1">{errors.password}</p>}

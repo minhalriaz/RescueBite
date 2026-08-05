@@ -1,4 +1,4 @@
-import { Plus, ArrowRight, HeartHandshake } from "lucide-react";
+import { Plus, ArrowRight, HeartHandshake, Leaf } from "lucide-react";
 
 export default function HeroBanner() {
   return (
@@ -9,8 +9,9 @@ export default function HeroBanner() {
         {/* Left Content */}
         <div className="max-w-xl">
 
-          <span className="inline-block px-3 py-1 rounded-full bg-white/20 text-xs font-medium mb-4">
-            🌱 RescueBite Donor Dashboard
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-medium mb-4">
+            <Leaf size={14} />
+            RescueBite Donor Dashboard
           </span>
 
           <h1 className="text-3xl lg:text-4xl font-bold leading-tight">

@@ -25,7 +25,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F7F5] flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+      {/* Background image */}
+      <div className="absolute inset-0 -z-20">
+        <img
+          src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1600&q=80"
+          alt="Food rescue background"
+          className="w-full h-full object-cover"
+          loading="eager"
+        />
+      </div>
+      {/* Translucent overlay */}
+      <div className="absolute inset-0 bg-[#0F9F76]/70 backdrop-blur-sm -z-10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/30 -z-10" />
       <div className="w-full max-w-md">
         <div className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)]">
           <div className="text-center mb-8">

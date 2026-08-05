@@ -47,8 +47,8 @@ export default function Sidebar({ isOpen }) {
       {/* Logo */}
       <div>
         <div className="flex items-center gap-3 px-6 py-6">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white font-bold text-xl">
-            🍕
+          <div className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center">
+            <img src="/rescuebite-logo-dark.svg" alt="RescueBite" className="h-6 w-auto" />
           </div>
 
           <div>

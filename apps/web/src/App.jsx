@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Pizza, Soup, Carrot, Home, Handshake, Bike, Backpack, Package, User } from "lucide-react";
 
 const INITIAL_FOOD_POSTS = [
   {
@@ -35,12 +36,12 @@ const INITIAL_FOOD_POSTS = [
 ];
 
 const RESCUE_CATEGORIES = [
-  { id: 'restaurants', name: 'Restaurants', icon: '🍔', badge: 'Active' },
-  { id: 'events', name: 'Events & Catering', icon: '🍲', badge: 'Huge Qty' },
-  { id: 'groceries', name: 'Raw Groceries', icon: '🥦', badge: 'Fresh' },
-  { id: 'households', name: 'Households', icon: '🏡', badge: '' },
-  { id: 'ngos', name: 'NGOs & Shelters', icon: '🤝', badge: 'Urgent' },
-  { id: 'volunteer-action', name: 'Express Delivery', icon: '⚡', badge: 'Fast' }
+  { id: 'restaurants', name: 'Restaurants', icon: Pizza, badge: 'Active' },
+  { id: 'events', name: 'Events & Catering', icon: Soup, badge: 'Huge Qty' },
+  { id: 'groceries', name: 'Raw Groceries', icon: Carrot, badge: 'Fresh' },
+  { id: 'households', name: 'Households', icon: Home, badge: '' },
+  { id: 'ngos', name: 'NGOs & Shelters', icon: Handshake, badge: 'Urgent' },
+  { id: 'volunteer-action', name: 'Express Delivery', icon: Bike, badge: 'Fast' }
 ];
 
 export default function App() {
@@ -74,8 +75,8 @@ export default function App() {
 
       <nav className="bg-white/90 backdrop-blur-md border-b border-[#E6ECE8] sticky top-0 z-50 shadow-[0_2px_15px_-5px_rgba(15,159,118,0.02)] hidden md:block">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => setActiveTab('food')}>
-            <span className="text-3xl group-hover:rotate-6 transition-transform duration-300">🍕</span>
+          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => setActiveTab('food')}>
+            <img src="/rescuebite-icon.svg" alt="RescueBite" className="h-9 w-auto group-hover:rotate-6 transition-transform duration-300" />
             <span className="font-extrabold text-2xl tracking-tight text-[#0F9F76]">
               RescueBite
             </span>
@@ -118,7 +119,7 @@ export default function App() {
 
       <header className="bg-white/95 backdrop-blur-md border-b border-[#E6ECE8] p-4 sticky top-0 z-50 flex items-center justify-between md:hidden shadow-[0_1px_8px_rgba(0,0,0,0.01)]">
         <div className="flex items-center gap-2" onClick={() => setActiveTab('food')}>
-          <span className="text-2xl">🍕</span>
+          <img src="/rescuebite-icon.svg" alt="RescueBite" className="h-7 w-auto" />
           <span className="font-extrabold text-lg text-[#0F9F76]">RescueBite</span>
         </div>
         <span className="text-[9px] bg-[#E6F5F0] text-[#0F9F76] font-extrabold px-3 py-1 rounded-full border border-[#CBECE2] tracking-wider">DHAKA</span>
@@ -236,14 +237,17 @@ export default function App() {
           <div className="max-w-5xl mx-auto px-6 py-12">
             <div className="text-center mb-12">
               <span className="inline-flex items-center gap-1.5 bg-[#E6F5F0] text-[#0F9F76] text-xs font-bold px-3 py-1.5 rounded-full border border-[#CBECE2] uppercase tracking-wider mb-3">
-                🎒 Choose Your Segment
+                <Backpack size={14} />
+                Choose Your Segment
               </span>
               <h2 className="text-3xl font-extrabold text-[#0D4436] tracking-tight">Our Rescue Categories</h2>
               <p className="text-sm text-stone-400 mt-2 max-w-md mx-auto">Explore surplus options tailored by source. Pick what fits your scope best.</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              {RESCUE_CATEGORIES.map((cat) => (
+              {RESCUE_CATEGORIES.map((cat) => {
+                const CategoryIcon = cat.icon;
+                return (
                 <div
                   key={cat.id}
                   onClick={() => { alert(`Filtering by: ${cat.name}`); setActiveTab('food'); }}
@@ -258,13 +262,14 @@ export default function App() {
                         {cat.badge}
                       </span>
                     )}
-                    <span className="text-3xl select-none">{cat.icon}</span>
+                    <CategoryIcon size={28} className="text-[#0F9F76]" />
                   </div>
                   <h3 className="mt-4 text-sm font-bold text-[#0D4436] group-hover:text-[#0F9F76] transition-colors duration-200">
                     {cat.name}
                   </h3>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -312,7 +317,7 @@ export default function App() {
           <div className="max-w-xl mx-auto py-12 px-6">
             <div className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)]">
               <div className="text-center">
-                <span className="text-4xl">🚴</span>
+                <Bike size={48} className="mx-auto text-[#0F9F76]" strokeWidth={1.5} />
                 <h2 className="text-3xl font-extrabold text-[#0D4436] tracking-tight mt-3">Become a Rescue Hero</h2>
                 <p className="text-stone-400 font-medium text-sm mt-2">Become the bridge between surplus food and the local families who need it.</p>
               </div>
@@ -376,7 +381,7 @@ export default function App() {
           onClick={() => setActiveTab('food')}
           className="flex flex-col items-center justify-center flex-1 py-1"
         >
-          <span className={`text-xl transition-all duration-200 ${activeTab === 'food' ? 'scale-110 opacity-100' : 'opacity-40'}`}>🍕</span>
+          <Pizza size={22} className={`transition-all duration-200 ${activeTab === 'food' ? 'scale-110 opacity-100 text-[#0F9F76]' : 'opacity-40 text-stone-400'}`} />
           <span className={`text-[9px] font-black uppercase tracking-wider mt-1 ${activeTab === 'food' ? 'text-[#0F9F76]' : 'text-stone-400'}`}>Food</span>
         </button>
 
@@ -384,7 +389,7 @@ export default function App() {
           onClick={() => setActiveTab('services')}
           className="flex flex-col items-center justify-center flex-1 py-1"
         >
-          <span className={`text-xl transition-all duration-200 ${activeTab === 'services' ? 'scale-110 opacity-100' : 'opacity-40'}`}>📦</span>
+          <Package size={22} className={`transition-all duration-200 ${activeTab === 'services' ? 'scale-110 opacity-100 text-[#0F9F76]' : 'opacity-40 text-stone-400'}`} />
           <span className={`text-[9px] font-black uppercase tracking-wider mt-1 ${activeTab === 'services' ? 'text-[#0F9F76]' : 'text-stone-400'}`}>Services</span>
         </button>
 
@@ -399,7 +404,7 @@ export default function App() {
           onClick={() => setActiveTab('volunteer')}
           className="flex flex-col items-center justify-center flex-1 py-1"
         >
-          <span className={`text-xl transition-all duration-200 ${activeTab === 'volunteer' ? 'scale-110 opacity-100' : 'opacity-40'}`}>🚴</span>
+          <Bike size={22} className={`transition-all duration-200 ${activeTab === 'volunteer' ? 'scale-110 opacity-100 text-[#0F9F76]' : 'opacity-40 text-stone-400'}`} />
           <span className={`text-[9px] font-black uppercase tracking-wider mt-1 ${activeTab === 'volunteer' ? 'text-[#0F9F76]' : 'text-stone-400'}`}>Hero</span>
         </button>
 
@@ -407,7 +412,7 @@ export default function App() {
           to="/login"
           className="flex flex-col items-center justify-center flex-1 py-1"
         >
-          <span className={`text-xl transition-all duration-200 ${activeTab === 'profile' ? 'scale-110 opacity-100' : 'opacity-40'}`}>👤</span>
+          <User size={22} className={`transition-all duration-200 ${activeTab === 'profile' ? 'scale-110 opacity-100 text-[#0F9F76]' : 'opacity-40 text-stone-400'}`} />
           <span className={`text-[9px] font-black uppercase tracking-wider mt-1 ${activeTab === 'profile' ? 'text-[#0F9F76]' : 'text-stone-400'}`}>Profile</span>
         </Link>
 
@@ -417,7 +422,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xl">🍕</span>
+              <img src="/rescuebite-logo-dark.svg" alt="RescueBite" className="h-6 w-auto" />
               <span className="font-extrabold text-white">RescueBite</span>
             </div>
             <p className="text-xs mt-1 text-[#E6F5F0]/30">Share excess food, support families in Dhaka.</p>

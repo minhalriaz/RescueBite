@@ -17,14 +17,6 @@ export default function DonorDashboard() {
   return (
     <div className="min-h-screen bg-gray-100 flex">
 
-      {/* Mobile Overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -32,7 +24,7 @@ export default function DonorDashboard() {
       />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col lg:ml-64">
 
         {/* Navbar */}
         <Navbar toggleSidebar={toggleSidebar} />
@@ -43,18 +35,16 @@ export default function DonorDashboard() {
           {/* Hero Section */}
           <HeroCollage />
 
-          {/* Premium Stats Cards */}
+          {/* Statistics */}
           <StatsSection />
 
-          {/* Recent Food Posts */}
+          {/* Bottom Section */}
           <section className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-10">
 
-            {/* Recent Food Posts */}
             <div className="xl:col-span-2">
               <RecentFoodPosts />
             </div>
 
-            {/* NGO Notifications */}
             <NotificationSection />
 
           </section>

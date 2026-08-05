@@ -2,25 +2,10 @@ import { useState } from "react";
 
 import Sidebar from "../components/dashboard/Sidebar";
 import Navbar from "../components/dashboard/Navbar";
-import HeroBanner from "../components/dashboard/HeroBanner";
-import SummaryCard from "../components/dashboard/SummaryCard";
+import HeroCollage from "../components/dashboard/HeroCollage";
+import StatsSection from "../components/dashboard/StatsSection";
 import RecentFoodPosts from "../components/dashboard/RecentFoodPosts";
-
-import { summaryData } from "../data/donorData";
-
-import {
-  Package,
-  Clock3,
-  CheckCircle2,
-  HeartHandshake,
-} from "lucide-react";
-
-const icons = [
-  <Package size={30} />,
-  <Clock3 size={30} />,
-  <CheckCircle2 size={30} />,
-  <HeartHandshake size={30} />,
-];
+import NotificationSection from "../components/dashboard/NotificationSection";
 
 export default function DonorDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -47,32 +32,32 @@ export default function DonorDashboard() {
       />
 
       {/* Main Content */}
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col">
 
         {/* Navbar */}
         <Navbar toggleSidebar={toggleSidebar} />
 
-        <main className="p-4 md:p-6 lg:p-8">
+        {/* Page Content */}
+        <main className="flex-1 p-4 md:p-6 lg:p-8">
 
-          {/* Hero Banner */}
-          <HeroBanner />
+          {/* Hero Section */}
+          <HeroCollage />
 
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
-            {summaryData.map((item, index) => (
-              <SummaryCard
-                key={item.id}
-                title={item.title}
-                value={item.value}
-                icon={icons[index]}
-              />
-            ))}
-          </div>
+          {/* Premium Stats Cards */}
+          <StatsSection />
 
           {/* Recent Food Posts */}
-          <div className="mt-10">
-            <RecentFoodPosts />
-          </div>
+          <section className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-10">
+
+            {/* Recent Food Posts */}
+            <div className="xl:col-span-2">
+              <RecentFoodPosts />
+            </div>
+
+            {/* NGO Notifications */}
+            <NotificationSection />
+
+          </section>
 
         </main>
 

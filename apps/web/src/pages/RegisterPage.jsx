@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { api } from '../api/client';
+import { setSession } from '../lib/auth';
 import { Gift, Handshake, Bike, Eye, EyeOff } from "lucide-react";
 
 const ROLES = [
@@ -9,6 +11,7 @@ const ROLES = [
 ];
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -20,6 +23,8 @@ export default function RegisterPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const validate = () => {
     const newErrors = {};
@@ -42,10 +47,31 @@ export default function RegisterPage() {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      alert('Registration successful! (placeholder)');
+    if (!validate()) return;
+
+    setSubmitting(true);
+    setSubmitError('');
+
+    try {
+      const payload = await api.register({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        password: form.password,
+        role: form.role,
+        beneficiary_preference: form.role === 'ngo' ? form.preferredFoodType : null,
+      });
+
+      setSession(payload.token, payload.user);
+      if (payload.user.role === 'ngo') navigate('/ngo/dashboard');
+      else if (payload.user.role === 'donor') navigate('/donor/dashboard');
+      else navigate('/');
+    } catch (requestError) {
+      setSubmitError(requestError.message || 'Registration failed.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -68,6 +94,12 @@ export default function RegisterPage() {
             <h1 className="text-2xl font-extrabold text-[#0D4436] tracking-tight">Create Account</h1>
             <p className="text-stone-400 font-medium text-xs mt-1.5">Join the rescue movement today</p>
           </div>
+
+          {submitError && (
+            <div className="mb-2 rounded-xl bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700">
+              {submitError}
+            </div>
+          )}
 
           <form className="flex flex-col gap-1.5 flex-1 overflow-hidden" onSubmit={handleSubmit}>
             <div className="flex flex-col min-h-[60px]">
@@ -215,9 +247,10 @@ export default function RegisterPage() {
 
             <button
               type="submit"
-              className="w-full bg-[#0F9F76] hover:bg-[#0C8562] text-white font-black uppercase tracking-wider p-2.5 rounded-[1rem] mt-1 transition-all duration-300 shadow-md active:scale-95 text-sm flex-none"
+              disabled={submitting}
+              className="w-full bg-[#0F9F76] hover:bg-[#0C8562] text-white font-black uppercase tracking-wider p-2.5 rounded-[1rem] mt-1 transition-all duration-300 shadow-md active:scale-95 text-sm flex-none disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Create Account
+              {submitting ? 'Creating Account...' : 'Create Account'}
             </button>
           </form>
 

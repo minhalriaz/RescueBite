@@ -1,126 +1,150 @@
 # RescueBite API Contract Documentation
 
+Base development URL: `http://localhost:8000/api`
+
+Protected endpoints use:
+
+```text
+Authorization: Bearer <token>
+```
+
 ## Authentication
 
-### Register User
-**Endpoint:** POST /api/register  
-**Access:** Public
+### Register
 
-#### Request
+`POST /api/register`
+
 ```json
 {
-  "name": "Lionel Messi",
-  "email": "messi@example.com",
-  "password": "goat123",
-  "role": "donor"
+  "name": "Human Hope NGO",
+  "email": "hope@example.com",
+  "phone": "+8801700000000",
+  "password": "password",
+  "role": "ngo",
+  "beneficiary_preference": "human"
 }
 ```
 
-#### Success (201)
-```json
-{
-  "message": "User registered successfully."
-}
-```
-
-#### Errors
-- 400 Bad Request
-- 409 Email already exists
+For NGO users, `beneficiary_preference` must be `human`, `animal`, or `both`.
 
 ### Login
-**Endpoint:** POST /api/login  
-**Access:** Public
+
+`POST /api/login`
 
 ```json
 {
-  "email": "ronaldo@example.com",
-  "password": "goat123"
+  "email": "hope@example.com",
+  "password": "password"
 }
 ```
 
-Success:
-```json
-{
-  "token":"jwt_token",
-  "role":"donor"
-}
-```
+Success returns `token` and `user`.
 
-### Profile
-**Endpoint:** GET /api/profile  
-**Access:** Donor, NGO, Volunteer, Admin
+### Profile / Logout
 
-```json
-{
-  "id":1,
-  "name":"Cristiano Ronaldo",
-  "email":"ronaldo@example.com",
-  "role":"donor"
-}
-```
+- `GET /api/profile`
+- `POST /api/logout`
 
-### Logout
-POST /api/logout
-
----
-
-# Food Donations
+## Food Donations
 
 ### Create Food Donation
-**Endpoint:** POST /api/food-donations  
-**Access:** Donor
+
+`POST /api/donations`
+
+Compatibility alias: `POST /api/food-donations`
+
+Access: Donor
 
 ```json
 {
-  "title":"Cooked Rice and Curry",
-  "description":"Freshly prepared food",
-  "quantity":15,
-  "expiryTime":"2026-07-18T21:00:00",
-  "latitude":23.7465,
-  "longitude":90.3760,
-  "address":"Dhanmondi, Dhaka"
+  "food": "Cooked meals",
+  "quantity": "Approximately 30 servings",
+  "beneficiary_type": "human",
+  "pickup_deadline": "2026-08-12T20:00:00+06:00",
+  "address": "Dhanmondi, Dhaka",
+  "description": "Freshly prepared food"
 }
 ```
 
-Success:
+Success (`201`):
+
 ```json
 {
-  "message":"Food donation created successfully.",
-  "donationId":101
+  "message": "Food donation created successfully.",
+  "donation": {
+    "id": 101,
+    "food": "Cooked meals",
+    "beneficiary_type": "human"
+  },
+  "notifications_created": 2
 }
 ```
 
-Other endpoints:
-- GET /api/food-donations
-- GET /api/food-donations/{id}
-- PUT /api/food-donations/{id}
-- DELETE /api/food-donations/{id}
-- GET /api/food-donations/history
+Creating a donation synchronously creates in-app notifications for matching NGO users. A Human donation matches Human and Both NGO preferences. An Animal donation matches Animal and Both preferences.
 
-# Pickup Requests
-- POST /api/pickup-requests
-- GET /api/pickup-requests
-- PUT /api/pickup-requests/{id}/approval
-- PUT /api/pickup-requests/{id}/status
-- PUT /api/pickup-requests/{id}/pickup
-- PUT /api/pickup-requests/{id}/delivery
+## Notifications
 
-# Notifications
-- GET /api/notifications
-- PUT /api/notifications/{id}/read
+### Retrieve notifications
 
-# Admin
-- GET /api/admin/users
-- GET /api/admin/food-posts
-- GET /api/admin/pickup-requests
-- GET /api/admin/reports
+`GET /api/notifications`
 
-# Status Codes
-200 OK
-201 Created
-400 Bad Request
-401 Unauthorized
-403 Forbidden
-404 Not Found
-409 Conflict
-500 Internal Server Error
+Access: authenticated user; NGO accounts receive their matching donation alerts.
+
+```json
+{
+  "data": [
+    {
+      "id": 12,
+      "user_id": 3,
+      "donation_id": 101,
+      "type": "donation_available",
+      "title": "New food donation available",
+      "message": "New food donation available near your service area.\n\nFood: Cooked meals\nQuantity: Approximately 30 servings\nBeneficiary: Human\nPickup deadline: 8:00 PM",
+      "data": {
+        "donation_id": 101,
+        "food": "Cooked meals",
+        "quantity": "Approximately 30 servings",
+        "beneficiary_type": "human",
+        "pickup_deadline": "2026-08-12T20:00:00+06:00",
+        "address": "Dhanmondi, Dhaka"
+      },
+      "read_at": null,
+      "created_at": "2026-08-12T14:00:00+06:00",
+      "updated_at": "2026-08-12T14:00:00+06:00"
+    }
+  ],
+  "unread_count": 1
+}
+```
+
+### Mark one as read
+
+`PATCH /api/notifications/{notificationId}/read`
+
+The notification must belong to the authenticated user. The original `PUT` endpoint from the early API contract is retained as a compatibility alias.
+
+### Mark all as read
+
+`PATCH /api/notifications/read-all`
+
+Marks all unread notifications belonging to the authenticated user as read.
+
+## Duplicate prevention
+
+The database enforces a unique key across:
+
+```text
+user_id + donation_id + type
+```
+
+The notification service uses an idempotent insert, so rerunning matching for the same donation does not create a second notification for the same NGO.
+
+## Status Codes
+
+- `200` OK
+- `201` Created
+- `401` Unauthenticated
+- `403` Forbidden
+- `404` Not Found
+- `422` Validation Error
+- `500` Server Error

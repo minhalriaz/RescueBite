@@ -8,6 +8,18 @@ export default function Navbar({ toggleSidebar, role = "donor" }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const user = getStoredUser();
+  const roleLabel =
+  role === "ngo"
+    ? "NGO"
+    : role === "volunteer"
+      ? "Volunteer"
+      : "Donor";
+  const searchPlaceholder =
+  role === "volunteer"
+    ? "Search volunteer opportunities..."
+    : role === "ngo"
+      ? "Search donation alerts..."
+      : "Search donations...";
   const {
     notifications,
     unreadCount,
@@ -44,43 +56,45 @@ export default function Navbar({ toggleSidebar, role = "donor" }) {
           <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
-            placeholder="Search donations..."
+            placeholder={searchPlaceholder}
             className="w-full bg-gray-100 rounded-xl pl-11 pr-4 py-3 outline-none focus:ring-2 focus:ring-emerald-400"
           />
         </div>
       </div>
 
       <div className="flex items-center gap-3 md:gap-6">
-        <div className="relative" ref={dropdownRef}>
-          <button
-            type="button"
-            onClick={() => setOpen((value) => !value)}
-            className="relative rounded-full p-2 hover:bg-emerald-50 hover:text-emerald-600 transition"
-            aria-label={`Notifications${unreadCount ? `, ${unreadCount} unread` : ""}`}
-            aria-expanded={open}
-          >
-            <Bell size={22} />
-            {unreadCount > 0 ? (
-              <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
-                {unreadCount > 99 ? "99+" : unreadCount}
-              </span>
-            ) : null}
-          </button>
+        {role !== "volunteer" ? (
+          <div className="relative" ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => setOpen((value) => !value)}
+              className="relative rounded-full p-2 hover:bg-emerald-50 hover:text-emerald-600 transition"
+              aria-label={`Notifications${unreadCount ? `, ${unreadCount} unread` : ""}`}
+              aria-expanded={open}
+            >
+              <Bell size={22} />
+              {unreadCount > 0 ? (
+                <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
+                  {unreadCount > 99 ? "99+" : unreadCount}
+                </span>
+              ) : null}
+            </button>
 
-          {open ? (
-            <NotificationDropdown
-              role={role}
-              notifications={notifications}
-              unreadCount={unreadCount}
-              loading={loading}
-              error={error}
-              onRead={markAsRead}
-              onReadAll={markAllAsRead}
-              onRetry={refreshNotifications}
-              onClose={() => setOpen(false)}
-            />
-          ) : null}
-        </div>
+            {open ? (
+              <NotificationDropdown
+                role={role}
+                notifications={notifications}
+                unreadCount={unreadCount}
+                loading={loading}
+                error={error}
+                onRead={markAsRead}
+                onReadAll={markAllAsRead}
+                onRetry={refreshNotifications}
+                onClose={() => setOpen(false)}
+              />
+            ) : null}
+          </div>
+        ) : null}
 
         <div className="flex items-center gap-3">
           <div className="hidden h-10 w-10 sm:flex items-center justify-center rounded-full border-2 border-emerald-500 bg-emerald-50 font-bold text-emerald-700">
@@ -88,7 +102,7 @@ export default function Navbar({ toggleSidebar, role = "donor" }) {
           </div>
           <div className="hidden md:block">
             <p className="text-xs text-gray-500">Welcome Back</p>
-            <h3 className="font-semibold text-sm">{user?.name || (role === "ngo" ? "NGO" : "Donor")}</h3>
+            <h3 className="font-semibold text-sm">{user?.name || roleLabel}</h3>
           </div>
         </div>
       </div>

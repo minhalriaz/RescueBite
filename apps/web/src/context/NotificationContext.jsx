@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { api } from "../api/client";
-import { isAuthenticated } from "../lib/auth";
+import { getStoredUser, isAuthenticated } from "../lib/auth";
 
 const NotificationContext = createContext(null);
 
@@ -11,7 +11,9 @@ export function NotificationProvider({ children }) {
   const [error, setError] = useState("");
 
   const refreshNotifications = useCallback(async () => {
-    if (!isAuthenticated()) {
+    const user = getStoredUser();
+
+    if (!isAuthenticated() || user?.role !== "ngo") {
       setNotifications([]);
       setUnreadCount(0);
       setError("");
@@ -75,14 +77,25 @@ export function NotificationProvider({ children }) {
     window.addEventListener("rescuebite:auth-changed", handleAuthChange);
 
     const handleFocus = () => {
-      if (isAuthenticated()) refreshNotifications();
-    };
+    const user = getStoredUser();
+
+     if (isAuthenticated() && user?.role === "ngo") {
+     refreshNotifications();
+    }
+   };
 
     const interval = window.setInterval(() => {
-      if (document.visibilityState === "visible" && isAuthenticated()) {
+      const user = getStoredUser();
+
+       if (
+        document.visibilityState === "visible" &&
+        isAuthenticated() &&
+        user?.role === "ngo"
+      ) {
         refreshNotifications();
-      }
-    }, 30000);
+       }
+     }, 30000);
+
 
     window.addEventListener("focus", handleFocus);
 

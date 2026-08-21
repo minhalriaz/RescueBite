@@ -25,3 +25,10 @@ export function clearSession() {
 export function isAuthenticated() {
   return Boolean(localStorage.getItem(TOKEN_KEY));
 }
+export function dashboardForRole(role) {
+  if (role === "donor") return "/donor/dashboard";
+  if (role === "ngo") return "/ngo/dashboard";
+  if (role === "volunteer") return "/volunteer/dashboard";
+
+  return "/";
+}

@@ -12,9 +12,17 @@ Issue #14 is implemented with database-backed in-app notifications. Donor-create
 
 See `docs/checkpoint-2-notifications.md` for the full flow and demo procedure.
 
+## Run with Docker
+
+To run the project (including MySQL and services) using Docker:
+
+1. Make sure Docker Desktop is running.
+2. Start the containers using Docker Compose:
+   ```bash
+   docker compose up --build
+
 ## Run the backend
 
-```bash
 cd apps/api
 composer install
 cp .env.example .env
@@ -22,27 +30,22 @@ php artisan key:generate
 # Configure MySQL values in .env
 php artisan migrate --seed
 php artisan serve
-```
 
 ## Run the frontend
 
-```bash
 cd ../web
 cp .env.example .env
 npm install
 npm run dev
-```
 
 Frontend default: `http://localhost:5173`  
 API default: `http://localhost:8000/api`
 
 ## Tests
 
-```bash
 cd apps/api
 php artisan test
 
 cd ../web
 npm run lint
 npm run build
-```

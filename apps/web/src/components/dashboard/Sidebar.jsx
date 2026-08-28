@@ -1,5 +1,6 @@
 import {
   Bell,
+  Search as SearchIcon,
   LayoutDashboard,
   LogOut,
   Package,
@@ -24,7 +25,11 @@ const donorMenu = [
 
 const ngoMenu = [
   { title: "Dashboard", icon: LayoutDashboard, path: "/ngo/dashboard" },
+  { title: "Browse Food Donations", icon: SearchIcon, path: "/ngo/browse-food" },
+  { title: "My Requests", icon: Package, path: "/ngo/requests" },
   { title: "Notifications", icon: Bell, path: "/ngo/notifications" },
+  { title: "Profile", icon: User, path: "/ngo/profile" },
+  { title: "Settings", icon: Settings, path: "/ngo/settings" },
 ];
 const volunteerMenu = [
   {

@@ -2,7 +2,7 @@ import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api/client";
-import { setSession } from "../lib/auth";
+import { dashboardForRole, setSession } from "../lib/auth";
 
 const demoAccounts = [
   { label: "Donor demo", email: "donor@rescuebite.test" },
@@ -27,9 +27,7 @@ export default function LoginPage() {
       const payload = await api.login({ email: loginEmail, password: loginPassword });
       setSession(payload.token, payload.user);
 
-      if (payload.user.role === "ngo") navigate("/ngo/dashboard");
-      else if (payload.user.role === "donor") navigate("/donor/dashboard");
-      else navigate("/");
+      navigate(dashboardForRole(payload.user.role));
     } catch (requestError) {
       setError(requestError.message || "Login failed.");
     } finally {

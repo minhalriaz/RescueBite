@@ -31,10 +31,29 @@ const ngoMenu = [
   { title: "Profile", icon: User, path: "/ngo/profile" },
   { title: "Settings", icon: Settings, path: "/ngo/settings" },
 ];
+const volunteerMenu = [
+  {
+    title: "Dashboard",
+    icon: LayoutDashboard,
+    path: "/volunteer/dashboard",
+  },
+];
+
+const menusByRole = {
+  donor: donorMenu,
+  ngo: ngoMenu,
+  volunteer: volunteerMenu,
+};
+
+const dashboardLabels = {
+  donor: "Donor Dashboard",
+  ngo: "NGO Dashboard",
+  volunteer: "Volunteer Dashboard",
+};
 
 export default function Sidebar({ isOpen, setIsOpen, role = "donor" }) {
   const navigate = useNavigate();
-  const menuItems = role === "ngo" ? ngoMenu : donorMenu;
+  const menuItems = menusByRole[role] || [];
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -64,7 +83,7 @@ export default function Sidebar({ isOpen, setIsOpen, role = "donor" }) {
             <img src="/rescuebite-icon.svg" alt="RescueBite" className="h-11 w-auto" />
             <div className="ml-3">
               <h1 className="text-xl font-bold text-emerald-600">RescueBite</h1>
-              <p className="text-xs text-gray-500">{role === "ngo" ? "NGO Dashboard" : "Donor Dashboard"}</p>
+              <p className="text-xs text-gray-500">{dashboardLabels[role] || "Dashboard"}</p>
             </div>
             <button onClick={() => setIsOpen(false)} className="ml-auto lg:hidden" aria-label="Close Sidebar">
               <X size={22} />

@@ -1,0 +1,59 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: rescuebite-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: rescuebite
+      MYSQL_USER: rescuebite
+      MYSQL_PASSWORD: rescuebite_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - rescuebite_mysql_data:/var/lib/mysql
+
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: rescuebite-api
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    environment:
+      APP_NAME: RescueBite
+      APP_ENV: local
+      APP_DEBUG: true
+      APP_URL: http://localhost:8000
+
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: rescuebite
+      DB_USERNAME: rescuebite
+      DB_PASSWORD: rescuebite_password
+
+      FRONTEND_URL: http://localhost:5173
+    ports:
+      - "8000:8000"
+
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: rescuebite-web
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      VITE_API_URL: http://localhost:8000/api
+    ports:
+      - "5173:5173"
+
+
+volumes:
+  rescuebite_mysql_data:

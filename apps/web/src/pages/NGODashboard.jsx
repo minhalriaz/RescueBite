@@ -1,52 +1,27 @@
-import { BellRing, Handshake, Users } from "lucide-react";
+import { CheckCircle2, Handshake, Heart, Package } from "lucide-react";
 import DashboardShell from "../components/dashboard/DashboardShell";
-import NotificationSection from "../components/dashboard/NotificationSection";
-import { useNotifications } from "../context/NotificationContext";
-import { beneficiaryLabel } from "../utils/notification";
-import { getStoredUser } from "../lib/auth";
+import HeroCollage from "../components/dashboard/HeroCollage";
+import SummaryCard from "../components/dashboard/SummaryCard";
+import FoodCard from "../components/dashboard/FoodCard";
+import { ngoDonations } from "../data/ngoDonationData";
+import { Link } from "react-router-dom";
 
 export default function NGODashboard() {
-  const { notifications, unreadCount } = useNotifications();
-  const user = getStoredUser();
-
   return (
     <DashboardShell role="ngo">
-      <section className="rounded-3xl bg-gradient-to-br from-emerald-700 to-emerald-500 p-6 md:p-8 text-white shadow-lg">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-          <div>
-            <p className="text-emerald-100 font-medium">RescueBite NGO alerts</p>
-            <h1 className="mt-1 text-3xl font-bold">Matching food donations</h1>
-            <p className="mt-2 max-w-2xl text-sm text-emerald-50/90">
-              You receive in-app alerts when a donor posts food matching your beneficiary preference.
-            </p>
-          </div>
-          <div className="rounded-2xl bg-white/15 px-5 py-4 backdrop-blur-sm">
-            <p className="text-xs uppercase tracking-wider text-emerald-100">Preference</p>
-            <p className="mt-1 text-lg font-bold">{beneficiaryLabel(user?.beneficiary_preference)}</p>
-          </div>
-        </div>
+      <HeroCollage role="ngo" />
+      <section className="grid grid-cols-1 gap-5 mt-6 md:grid-cols-2 xl:grid-cols-4">
+        <SummaryCard title="Available Donations" value="18" subtitle="Near your location" trend="Ready" color="emerald" icon={<Package size={22} />} />
+        <SummaryCard title="Pending Requests" value="5" subtitle="Awaiting approval" trend="Active" color="blue" icon={<Handshake size={22} />} />
+        <SummaryCard title="Completed Pickups" value="12" subtitle="This month" trend="+3" color="violet" icon={<CheckCircle2 size={22} />} />
+        <SummaryCard title="Meals Received" value="245" subtitle="This month" trend="+28" color="orange" icon={<Heart size={22} />} />
       </section>
-
-      <section className="mt-6 grid gap-4 md:grid-cols-3">
-        <div className="rounded-2xl bg-white p-5 border border-gray-100 shadow-sm">
-          <BellRing className="text-emerald-600" />
-          <p className="mt-4 text-3xl font-bold text-gray-900">{unreadCount}</p>
-          <p className="text-sm text-gray-500">Unread alerts</p>
+      <section className="mt-10">
+        <div className="flex items-center justify-between gap-4 mb-5">
+          <div><h2 className="text-2xl font-bold text-gray-900">Nearby Food Donations</h2><p className="mt-1 text-sm text-gray-500">Fresh opportunities close to your organization.</p></div>
+          <Link to="/ngo/browse-food" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">Browse all</Link>
         </div>
-        <div className="rounded-2xl bg-white p-5 border border-gray-100 shadow-sm">
-          <Handshake className="text-emerald-600" />
-          <p className="mt-4 text-3xl font-bold text-gray-900">{notifications.length}</p>
-          <p className="text-sm text-gray-500">Recent matching posts</p>
-        </div>
-        <div className="rounded-2xl bg-white p-5 border border-gray-100 shadow-sm">
-          <Users className="text-emerald-600" />
-          <p className="mt-4 text-lg font-bold text-gray-900">{beneficiaryLabel(user?.beneficiary_preference)}</p>
-          <p className="text-sm text-gray-500">Beneficiary preference</p>
-        </div>
-      </section>
-
-      <section className="mt-6 max-w-3xl">
-        <NotificationSection />
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">{ngoDonations.map((donation) => <FoodCard key={donation.id} donation={donation} />)}</div>
       </section>
     </DashboardShell>
   );

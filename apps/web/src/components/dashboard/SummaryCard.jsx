@@ -31,23 +31,23 @@ export default function SummaryCard({
   subtitle,
   trend,
   color,
+  compact = false,
 }) {
   const style = colorStyles[color];
 
   return (
     <div
-      className="
+      className={`
       bg-white
       rounded-3xl
       border border-gray-100
       shadow-md
-      px-5
-      py-5
+      ${compact ? "px-4 py-4" : "px-5 py-5"}
       transition-all
       duration-300
       hover:-translate-y-1
       hover:shadow-xl
-    "
+    `}
     >
       {/* Top */}
 
@@ -55,8 +55,7 @@ export default function SummaryCard({
 
         <div
           className={`
-            w-12
-            h-12
+            ${compact ? "w-10 h-10" : "w-12 h-12"}
             rounded-xl
             flex
             items-center
@@ -84,13 +83,13 @@ export default function SummaryCard({
 
       {/* Title */}
 
-      <h3 className="mt-4 text-sm font-medium text-gray-500">
+      <h3 className={`${compact ? "mt-3" : "mt-4"} text-sm font-medium text-gray-500`}>
         {title}
       </h3>
 
       {/* Value */}
 
-      <h2 className="mt-1 text-4xl font-bold text-gray-900">
+      <h2 className={`${compact ? "text-3xl" : "text-4xl"} mt-1 font-bold text-gray-900`}>
         {value}
       </h2>
 
@@ -102,7 +101,7 @@ export default function SummaryCard({
 
       {/* Mini Graph */}
 
-      <div className="mt-4 flex items-end gap-1 h-7">
+      <div className={`${compact ? "mt-3 h-5" : "mt-4 h-7"} flex items-end gap-1`}>
 
         {[5, 8, 6, 11, 9, 13, 12, 15].map((height, index) => (
           <div

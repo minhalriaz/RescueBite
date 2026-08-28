@@ -6,6 +6,8 @@ import DonorDashboard from "../pages/DonorDashboard";
 import LoginPage from "../pages/LoginPage";
 import MyDonations from "../pages/MyDonations";
 import NGODashboard from "../pages/NGODashboard";
+import NGORequests from "../pages/NGORequests";
+import BrowseFoodDonations from "../pages/BrowseFoodDonations";
 import Notifications from "../pages/Notifications";
 import Profile from "../pages/Profile";
 import RegisterPage from "../pages/RegisterPage";
@@ -23,12 +25,16 @@ export default function AppRoutes() {
           <Route path="/donor/dashboard" element={<DonorDashboard />} />
           <Route path="/donor/create-donation" element={<CreateDonation />} />
           <Route path="/donor/my-donations" element={<MyDonations />} />
-          <Route path="/donor/notifications" element={<Notifications />} />
-          <Route path="/donor/profile" element={<Profile />} />
-          <Route path="/donor/settings" element={<Settings />} />
+          <Route path="/donor/notifications" element={<Notifications role="donor" />} />
+          <Route path="/donor/profile" element={<Profile role="donor" />} />
+          <Route path="/donor/settings" element={<Settings role="donor" />} />
 
           <Route path="/ngo/dashboard" element={<NGODashboard />} />
-          <Route path="/ngo/notifications" element={<Notifications />} />
+          <Route path="/ngo/browse-food" element={<BrowseFoodDonations />} />
+          <Route path="/ngo/requests" element={<NGORequests />} />
+          <Route path="/ngo/notifications" element={<Notifications role="ngo" />} />
+          <Route path="/ngo/profile" element={<Profile role="ngo" />} />
+          <Route path="/ngo/settings" element={<Settings role="ngo" />} />
         </Routes>
       </NotificationProvider>
     </Router>

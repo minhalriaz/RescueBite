@@ -4,9 +4,9 @@ import NotificationRow from "../components/notifications/NotificationRow";
 import { useNotifications } from "../context/NotificationContext";
 import { getStoredUser } from "../lib/auth";
 
-export default function Notifications() {
+export default function Notifications({ role: routeRole }) {
   const user = getStoredUser();
-  const role = user?.role === "ngo" ? "ngo" : "donor";
+  const role = routeRole || (user?.role === "ngo" ? "ngo" : "donor");
   const {
     notifications,
     unreadCount,

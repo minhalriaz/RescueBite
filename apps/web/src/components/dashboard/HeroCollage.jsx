@@ -3,13 +3,49 @@ import {
     HeartHandshake,
     Plus,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import hero1 from "../../assets/charity/hero4.webp";
 import hero2 from "../../assets/charity/hero2.webp";
 import hero3 from "../../assets/charity/hero3.webp";
 import hero4 from "../../assets/charity/hero1.webp";
 
-export default function HeroCollage() {
+export default function HeroCollage({ role = "donor" }) {
+    const isNgo = role === "ngo";
+
+    if (isNgo) {
+        return (
+            <section className="relative h-[360px] overflow-hidden rounded-3xl shadow-2xl shadow-emerald-900/25 lg:h-[390px]">
+                <img src={hero4} alt="Community food donation" className="absolute inset-0 h-full w-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/70 via-emerald-900/35 to-emerald-700/10" />
+                <div className="absolute inset-y-0 left-0 w-[70%] bg-gradient-to-r from-emerald-950/65 via-emerald-900/30 to-transparent" />
+                <div className="relative z-20 flex h-full items-center px-8 lg:px-14">
+                    <div className="max-w-xl">
+                        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-500/20 px-4 py-2 text-white backdrop-blur-md">
+                            <HeartHandshake size={16} />
+                            <span className="text-sm font-semibold">NGO Dashboard</span>
+                        </div>
+                        <h1 className="text-4xl font-extrabold leading-tight lg:text-5xl">
+                            <span className="text-white">Welcome Back,</span><br />
+                            <span className="text-emerald-300">Green Hope NGO!</span>
+                        </h1>
+                        <p className="mt-4 max-w-lg text-base leading-7 text-emerald-50 lg:text-lg">
+                            Browse available food donations near your organization and request pickups for families who need it most.
+                        </p>
+                        <div className="mt-6 flex flex-wrap gap-4">
+                            <Link to="/ngo/browse-food" className="flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-400">
+                                Browse Food Donations <ArrowRight size={18} />
+                            </Link>
+                            <Link to="/ngo/requests" className="flex items-center gap-2 rounded-xl border border-white/30 bg-white/5 px-6 py-3 text-white backdrop-blur-sm transition hover:bg-white/10">
+                                View My Requests
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section className="relative h-[360px] lg:h-[390px] overflow-hidden rounded-3xl shadow-2xl shadow-emerald-900/25">
 

@@ -11,5 +11,8 @@
     "build:web": "npm run build --workspace=@rescuebite/web",
     "lint:web": "npm run lint --workspace=@rescuebite/web",
     "preview:web": "npm run preview --workspace=@rescuebite/web"
+  },
+  "dependencies": {
+    "recharts": "^3.10.1"
   }
 }

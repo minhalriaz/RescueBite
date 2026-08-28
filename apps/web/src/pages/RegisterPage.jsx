@@ -74,8 +74,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
-      <div className="absolute inset-0 -z-20">
+    <div className="w-full min-h-screen flex items-center justify-center p-4 relative overflow-y-auto">
+      <div className="absolute inset-0 -z-20 fixed">
         <img
           src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1600&q=80"
           alt="Food rescue background"
@@ -83,85 +83,83 @@ export default function RegisterPage() {
           loading="eager"
         />
       </div>
-      <div className="absolute inset-0 bg-[#0F9F76]/70 backdrop-blur-sm -z-10" />
-      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/30 -z-10" />
+      <div className="absolute inset-0 bg-[#0F9F76]/70 backdrop-blur-sm -z-10 fixed" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/30 -z-10 fixed" />
 
-      <div className="w-full max-w-lg">
-        <div className="bg-white p-3 md:p-4 rounded-[1.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)] h-[560px] md:h-[600px] overflow-hidden flex flex-col w-full">
-          <div className="text-center mb-4 flex-none">
+      {/* h-fit দিয়ে হাইট একদম কনটেন্ট অনুযায়ী ফ্লেক্সিবল করা হলো */}
+      <div className="w-full max-w-lg h-fit my-auto">
+        <div className="bg-white p-5 md:p-6 rounded-[1.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)] flex flex-col w-full">
+          <div className="text-center mb-3">
             <h1 className="text-2xl font-extrabold text-[#0D4436] tracking-tight">Create Account</h1>
-            <p className="text-stone-400 font-medium text-xs mt-1.5">Join the rescue movement today</p>
+            <p className="text-stone-400 font-medium text-xs mt-0.5">Join the rescue movement today</p>
           </div>
 
           {submitError && (
-            <div className="mb-2 rounded-xl bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700">
+            <div className="mb-3 rounded-xl bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700">
               {submitError}
             </div>
           )}
 
-          <form className="flex flex-col gap-1.5 flex-1 overflow-hidden" onSubmit={handleSubmit}>
-            <div className="flex flex-col min-h-[60px]">
+          <form className="flex flex-col gap-2.5" onSubmit={handleSubmit}>
+            <div>
               <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Full Name</label>
               <input
                 type="text"
                 placeholder="Enter your full name"
                 value={form.name}
                 onChange={handleChange('name')}
-                className={`w-full mt-1 p-2 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.name ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
+                className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.name ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
               />
-              <div className="min-h-[14px]">
-                {errors.name && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.name}</p>}
-              </div>
+              {errors.name && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.name}</p>}
             </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
               <div>
                 <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Email Address</label>
-              <input
-                type="email"
-                placeholder="you@example.com"
-                value={form.email}
-                onChange={handleChange('email')}
-                className={`w-full mt-1 p-2 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.email ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
-              />
-                <div className="min-h-[14px]">
-                  {errors.email && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.email}</p>}
-                </div>
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  value={form.email}
+                  onChange={handleChange('email')}
+                  className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.email ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
+                />
+                {errors.email && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.email}</p>}
               </div>
 
-              <div className="flex flex-col min-h-[60px]">
+              <div>
                 <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Phone Number</label>
                 <input
                   type="tel"
                   placeholder="+880 1XXX-XXXXXX"
                   value={form.phone}
                   onChange={handleChange('phone')}
-                  className={`w-full mt-1 p-2 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.phone ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
+                  className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.phone ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
                 />
-                <div className="min-h-[14px]">
-                  {errors.phone && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.phone}</p>}
-                </div>
+                {errors.phone && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.phone}</p>}
               </div>
             </div>
 
-            <div className="flex flex-col min-h-[80px]">
+            <div>
               <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">I am a...</label>
-              <div className="grid grid-cols-3 gap-2 mt-1.5">
+              <div className="grid grid-cols-3 gap-2 mt-1">
                 {ROLES.map((role) => {
                   const RoleIcon = role.icon;
                   return (
                     <button
                       key={role.id}
                       type="button"
-                      onClick={() => { setForm((prev) => ({ ...prev, role: role.id, preferredFoodType: '' })); setErrors((prev) => { const next = { ...prev }; delete next.preferredFoodType; return next; }); }}
-                      className={`p-3 rounded-[1rem] border-2 text-center transition-all duration-200 ${
+                      onClick={() => { 
+                        setForm((prev) => ({ ...prev, role: role.id, preferredFoodType: '' })); 
+                        setErrors((prev) => { const next = { ...prev }; delete next.preferredFoodType; return next; }); 
+                      }}
+                      className={`p-2.5 rounded-[1rem] border-2 text-center transition-all duration-200 ${
                         form.role === role.id
                           ? 'border-[#0F9F76] bg-[#E6F5F0] shadow-md'
                           : 'border-[#E6ECE8] bg-white hover:border-[#CBECE2]'
                       }`}
                     >
-                      <div className="flex justify-center mb-1">
-                        <RoleIcon size={20} className="text-[#0F9F76]" />
+                      <div className="flex justify-center mb-0.5">
+                        <RoleIcon size={18} className="text-[#0F9F76]" />
                       </div>
                       <span className={`text-[11px] font-black uppercase tracking-wider ${form.role === role.id ? 'text-[#0F9F76]' : 'text-stone-500'}`}>
                         {role.label}
@@ -170,40 +168,35 @@ export default function RegisterPage() {
                   );
                 })}
               </div>
-              <div className="min-h-[14px]">
-                {errors.role && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.role}</p>}
-              </div>
+              {errors.role && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.role}</p>}
             </div>
 
-            <div className="min-h-[100px] flex flex-col">
-              <div className={`flex-1 transition-opacity duration-200 ${form.role === 'ngo' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+            {form.role === 'ngo' && (
+              <div>
                 <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Preferred Food Recipient Type</label>
-                <div className="grid grid-cols-3 gap-2 mt-1.5">
+                <div className="grid grid-cols-3 gap-2 mt-1">
                   {['human', 'animal', 'both'].map((type) => (
                     <button
                       key={type}
                       type="button"
                       onClick={() => setForm((prev) => ({ ...prev, preferredFoodType: type }))}
-                      disabled={form.role !== 'ngo'}
-                      className={`p-3 rounded-[1rem] border-2 text-center transition-all duration-200 ${
+                      className={`p-2.5 rounded-[1rem] border-2 text-center transition-all duration-200 ${
                         form.preferredFoodType === type
                           ? 'border-[#0F9F76] bg-[#E6F5F0] shadow-md'
                           : 'border-[#E6ECE8] bg-white hover:border-[#CBECE2]'
-                      } ${form.role !== 'ngo' ? 'opacity-50' : ''}`}
+                      }`}
                     >
-                      <span className={`text-[11px] font-black uppercase tracking-wider ${form.preferredFoodType === type ? 'text-[#0F9F76]' : 'text-stone-500'}`}>
+                      <span className={`text-[10px] font-black uppercase tracking-wider ${form.preferredFoodType === type ? 'text-[#0F9F76]' : 'text-stone-500'}`}>
                         {type === 'human' ? 'Human' : type === 'animal' ? 'Animal' : 'Both Human & Animal'}
                       </span>
                     </button>
                   ))}
                 </div>
-                <div className="min-h-[14px]">
-                  {errors.preferredFoodType && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.preferredFoodType}</p>}
-                </div>
+                {errors.preferredFoodType && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.preferredFoodType}</p>}
               </div>
-            </div>
+            )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
               <div>
                 <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Password</label>
                 <div className="relative mt-1">
@@ -212,47 +205,43 @@ export default function RegisterPage() {
                     placeholder="Min. 6 characters"
                     value={form.password}
                     onChange={handleChange('password')}
-                    className={`w-full p-2 pr-10 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.password ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
+                    className={`w-full p-2.5 pr-10 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.password ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-base p-1 hover:scale-110 transition-transform"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-base p-1 hover:scale-110 transition-transform text-stone-500"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
-                <div className="min-h-[14px]">
-                  {errors.password && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.password}</p>}
-                </div>
+                {errors.password && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.password}</p>}
               </div>
 
-                <div className="flex flex-col min-h-[60px]">
+              <div>
                 <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Confirm Password</label>
                 <input
                   type="password"
                   placeholder="Re-enter password"
                   value={form.confirmPassword}
                   onChange={handleChange('confirmPassword')}
-                  className={`w-full mt-1 p-2 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.confirmPassword ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
+                  className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.confirmPassword ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
                 />
-                <div className="min-h-[14px]">
-                  {errors.confirmPassword && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.confirmPassword}</p>}
-                </div>
+                {errors.confirmPassword && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.confirmPassword}</p>}
               </div>
             </div>
 
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-[#0F9F76] hover:bg-[#0C8562] text-white font-black uppercase tracking-wider p-2.5 rounded-[1rem] mt-1 transition-all duration-300 shadow-md active:scale-95 text-sm flex-none disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full bg-[#0F9F76] hover:bg-[#0C8562] text-white font-black uppercase tracking-wider p-3 rounded-[1rem] mt-1 transition-all duration-300 shadow-md active:scale-95 text-sm disabled:cursor-not-allowed disabled:opacity-60"
             >
               {submitting ? 'Creating Account...' : 'Create Account'}
             </button>
           </form>
 
-          <div className="flex-none min-h-[14px] mt-2">
+          <div className="mt-3">
             <p className="text-center text-xs text-stone-500 font-medium">
               Already have an account?{' '}
               <Link to="/login" className="text-[#0F9F76] font-bold hover:underline">

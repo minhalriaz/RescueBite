@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import HeroCarousel from './components/HeroCarousel';
+import { api } from './api/client';
+import { getStoredUser, isAuthenticated } from './lib/auth';
 import { Pizza, Soup, Carrot, Home, Handshake, Bike, Backpack, Package, User } from "lucide-react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import beefImage from './assets/food/beef.jpg';
@@ -110,6 +112,16 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('food');
   const [filter, setFilter] = useState('All');
   const [segmentFilter, setSegmentFilter] = useState('all'); // 'all' | 'human' | 'animal'
+  const [donationForm, setDonationForm] = useState({
+    food: '',
+    quantity: '',
+    beneficiary_type: 'human',
+    pickup_deadline: '',
+    address: '',
+  });
+  const [donationSubmitting, setDonationSubmitting] = useState(false);
+  const [donationError, setDonationError] = useState('');
+  const [donationSuccess, setDonationSuccess] = useState('');
   const posts = INITIAL_FOOD_POSTS;
 
   const filteredPosts = posts.filter(post => {
@@ -123,10 +135,53 @@ export default function App() {
     return true;
   });
 
-  const handleDonateSubmit = (e) => {
+  const updateDonationField = (field) => (e) => {
+    setDonationForm((current) => ({ ...current, [field]: e.target.value }));
+  };
+
+  const handleDonateSubmit = async (e) => {
     e.preventDefault();
-    alert("Food post submitted successfully!");
-    setActiveTab('food');
+    if (donationSubmitting) return;
+
+    setDonationError('');
+    setDonationSuccess('');
+
+    const user = getStoredUser();
+    if (!isAuthenticated() || user?.role !== 'donor') {
+      setDonationError('Please sign in with a donor account before posting food.');
+      return;
+    }
+
+    const pickupDeadline = new Date(donationForm.pickup_deadline);
+    if (!donationForm.pickup_deadline || Number.isNaN(pickupDeadline.getTime())) {
+      setDonationError('Please choose a valid pickup deadline.');
+      return;
+    }
+
+    setDonationSubmitting(true);
+
+    try {
+      const payload = await api.createDonation({
+        ...donationForm,
+        pickup_deadline: pickupDeadline.toISOString(),
+      });
+
+      setDonationSuccess(
+        `Food post submitted successfully. ${payload.notifications_created} matching NGO notification${payload.notifications_created === 1 ? '' : 's'} created.`,
+      );
+      setDonationForm({
+        food: '',
+        quantity: '',
+        beneficiary_type: 'human',
+        pickup_deadline: '',
+        address: '',
+      });
+      setActiveTab('food');
+    } catch (requestError) {
+      setDonationError(requestError.message || 'Could not submit the food donation.');
+    } finally {
+      setDonationSubmitting(false);
+    }
   };
 
   const handleVolunteerSubmit = (e) => {
@@ -193,6 +248,14 @@ export default function App() {
       </header>
 
       <main className="flex-grow">
+        {donationSuccess && (
+          <div className="mx-auto mt-6 max-w-7xl px-6">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-800">
+              {donationSuccess}
+            </div>
+          </div>
+        )}
+
         {activeTab === 'food' && (
           <div className="max-w-7xl mx-auto px-6 py-8">
 
@@ -385,32 +448,49 @@ export default function App() {
               <h2 className="text-3xl font-extrabold text-[#0D4436] tracking-tight">Post Surplus Food</h2>
               <p className="text-stone-400 font-medium text-sm mt-1">Let's prevent food wastage. Register your surplus meal below.</p>
 
+              {donationError && (
+                <div className="mt-5 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm font-semibold text-rose-700">
+                  {donationError}
+                </div>
+              )}
+
               <form className="mt-8 space-y-5" onSubmit={handleDonateSubmit}>
                 <div>
                   <label className="block text-xs font-black text-stone-400 uppercase tracking-wider">Food Description</label>
-                  <input type="text" placeholder="e.g. 30 Boxes of Catering Chicken Pulao or Animal Trimmings" className="w-full mt-2 p-3.5 rounded-[1.15rem] border border-[#E6ECE8] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 text-sm font-medium bg-[#F4F7F5]/80" required />
+                  <input type="text" value={donationForm.food} onChange={updateDonationField('food')} placeholder="e.g. 30 Boxes of Catering Chicken Pulao or Animal Trimmings" className="w-full mt-2 p-3.5 rounded-[1.15rem] border border-[#E6ECE8] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 text-sm font-medium bg-[#F4F7F5]/80" required />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-black text-stone-400 uppercase tracking-wider">Quantity</label>
-                    <input type="text" placeholder="e.g. 30 Servings / 15 kg" className="w-full mt-2 p-3.5 rounded-[1.15rem] border border-[#E6ECE8] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 text-sm font-medium bg-[#F4F7F5]/80" required />
+                    <input type="text" value={donationForm.quantity} onChange={updateDonationField('quantity')} placeholder="e.g. 30 Servings / 15 kg" className="w-full mt-2 p-3.5 rounded-[1.15rem] border border-[#E6ECE8] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 text-sm font-medium bg-[#F4F7F5]/80" required />
                   </div>
                   <div>
-                    <label className="block text-xs font-black text-stone-400 uppercase tracking-wider">Best Before</label>
-                    <input type="text" placeholder="e.g. 5 Hours" className="w-full mt-2 p-3.5 rounded-[1.15rem] border border-[#E6ECE8] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 text-sm font-medium bg-[#F4F7F5]/80" required />
+                    <label className="block text-xs font-black text-stone-400 uppercase tracking-wider">Pickup Deadline</label>
+                    <input type="datetime-local" value={donationForm.pickup_deadline} onChange={updateDonationField('pickup_deadline')} className="w-full mt-2 p-3.5 rounded-[1.15rem] border border-[#E6ECE8] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 text-sm font-medium bg-[#F4F7F5]/80" required />
                   </div>
                 </div>
+                <fieldset>
+                  <legend className="block text-xs font-black text-stone-400 uppercase tracking-wider">Beneficiary</legend>
+                  <div className="grid grid-cols-2 gap-3 mt-2">
+                    {['human', 'animal'].map((type) => (
+                      <label key={type} className={`cursor-pointer rounded-[1.15rem] border-2 p-3.5 text-center text-sm font-black uppercase tracking-wider transition-all ${donationForm.beneficiary_type === type ? 'border-[#0F9F76] bg-[#E6F5F0] text-[#0F9F76]' : 'border-[#E6ECE8] text-stone-500 hover:border-[#CBECE2]'}`}>
+                        <input type="radio" name="beneficiary_type" value={type} checked={donationForm.beneficiary_type === type} onChange={updateDonationField('beneficiary_type')} className="sr-only" />
+                        {type}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
                 <div>
                   <label className="block text-xs font-black text-stone-400 uppercase tracking-wider">Pickup Area Address</label>
-                  <input type="text" placeholder="e.g. Meena Bazar, Gulshan 2" className="w-full mt-2 p-3.5 rounded-[1.15rem] border border-[#E6ECE8] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 text-sm font-medium bg-[#F4F7F5]/80" required />
+                  <input type="text" value={donationForm.address} onChange={updateDonationField('address')} placeholder="e.g. Meena Bazar, Gulshan 2" className="w-full mt-2 p-3.5 rounded-[1.15rem] border border-[#E6ECE8] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 text-sm font-medium bg-[#F4F7F5]/80" required />
                 </div>
 
                 <div className="flex gap-4 pt-4">
                   <button type="button" onClick={() => setActiveTab('food')} className="flex-1 bg-stone-50 hover:bg-stone-100 text-stone-700 font-bold p-3.5 rounded-[1.15rem] border border-stone-200 transition-all duration-300">
                     Cancel
                   </button>
-                  <button type="submit" className="flex-1 bg-[#0F9F76] hover:bg-[#0C8562] text-white font-black uppercase tracking-wider p-3.5 rounded-[1.15rem] transition-all duration-300 shadow-md active:scale-95">
-                    Publish
+                  <button type="submit" disabled={donationSubmitting} className="flex-1 bg-[#0F9F76] hover:bg-[#0C8562] text-white font-black uppercase tracking-wider p-3.5 rounded-[1.15rem] transition-all duration-300 shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-60">
+                    {donationSubmitting ? 'Publishing...' : 'Publish'}
                   </button>
                 </div>
               </form>

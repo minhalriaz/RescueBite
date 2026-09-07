@@ -29,6 +29,7 @@ export function dashboardForRole(role) {
   if (role === "donor") return "/donor/dashboard";
   if (role === "ngo") return "/ngo/dashboard";
   if (role === "volunteer") return "/volunteer/dashboard";
+  if (role === "admin") return "/admin";
 
   return "/";
 }

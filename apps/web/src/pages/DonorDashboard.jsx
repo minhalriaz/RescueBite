@@ -41,7 +41,7 @@ export default function DonorDashboard() {
     <DashboardShell role="donor">
       <HeroCollage />
       {error && (
-        <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 dark:bg-rose-900/20 p-4 text-sm text-rose-700 dark:text-rose-300">
+        <div className="mt-4 rounded-xl border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-900/20 p-4 text-sm text-rose-700 dark:text-rose-300">
           {error}
           <button onClick={fetchData} className="ml-3 font-bold underline">Retry</button>
         </div>

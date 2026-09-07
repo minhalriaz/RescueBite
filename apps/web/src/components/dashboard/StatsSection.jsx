@@ -38,10 +38,10 @@ const STAT_DEFS = [
 
 function SkeletonCard() {
   return (
-    <div className="rounded-3xl border border-gray-100 bg-white p-6 animate-pulse">
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-200" />
-      <div className="mt-5 h-3 w-20 rounded bg-gray-200" />
-      <div className="mt-2 h-6 w-10 rounded bg-gray-200" />
+    <div className="rounded-3xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-surface)] p-6 animate-pulse">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[color:var(--color-rescue-accent-soft)]" />
+      <div className="mt-5 h-3 w-20 rounded bg-[color:var(--color-rescue-accent-soft)]" />
+      <div className="mt-2 h-6 w-10 rounded bg-[color:var(--color-rescue-accent-soft)]" />
     </div>
   );
 }

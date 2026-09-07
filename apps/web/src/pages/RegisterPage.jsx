@@ -75,7 +75,7 @@ export default function RegisterPage() {
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center p-4 relative overflow-y-auto">
-      <div className="absolute inset-0 -z-20 fixed">
+      <div className="absolute inset-0 -z-20">
         <img
           src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1600&q=80"
           alt="Food rescue background"
@@ -83,85 +83,85 @@ export default function RegisterPage() {
           loading="eager"
         />
       </div>
-      <div className="absolute inset-0 bg-[#0F9F76]/70 backdrop-blur-sm -z-10 fixed" />
-      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/30 -z-10 fixed" />
+      <div className="absolute inset-0 bg-[#0F9F76]/70 dark:bg-black/60 backdrop-blur-sm -z-10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/30 -z-10" />
 
-      {/* h-fit দিয়ে হাইট একদম কনটেন্ট অনুযায়ী ফ্লেক্সিবল করা হলো */}
       <div className="w-full max-w-lg h-fit my-auto">
-        <div className="bg-white p-5 md:p-6 rounded-[1.5rem] border border-[#E6ECE8] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)] flex flex-col w-full">
+        <div className="bg-white dark:bg-[color:var(--color-rescue-surface)] p-5 md:p-6 rounded-[1.5rem] border border-[#E6ECE8] dark:border-[color:var(--color-rescue-border)] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.02)] flex flex-col w-full">
           <div className="text-center mb-3">
-            <h1 className="text-2xl font-extrabold text-[#0D4436] tracking-tight">Create Account</h1>
-            <p className="text-stone-400 font-medium text-xs mt-0.5">Join the rescue movement today</p>
+            <h1 className="text-2xl font-extrabold text-[#0D4436] dark:text-[color:var(--color-rescue-text)] tracking-tight">Create Account</h1>
+            <p className="text-stone-400 dark:text-[color:var(--color-rescue-text-muted)] font-medium text-xs mt-0.5">Join the rescue movement today</p>
           </div>
 
           {submitError && (
-            <div className="mb-3 rounded-xl bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700">
+            <div className="mb-3 rounded-xl bg-rose-50 dark:bg-rose-900/25 px-3 py-2 text-xs font-bold text-rose-700 dark:text-rose-300">
               {submitError}
             </div>
           )}
 
           <form className="flex flex-col gap-2.5" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Full Name</label>
+              <label className="block text-[11px] font-black text-stone-400 dark:text-[color:var(--color-rescue-text-muted)] uppercase tracking-wider">Full Name</label>
               <input
                 type="text"
                 placeholder="Enter your full name"
                 value={form.name}
                 onChange={handleChange('name')}
-                className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.name ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
+                className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 dark:bg-[color:var(--color-rescue-bg)] text-sm font-medium text-stone-800 dark:text-[color:var(--color-rescue-text)] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.name ? 'border-rose-400' : 'border-[#E6ECE8] dark:border-[color:var(--color-rescue-border)]'}`}
               />
               {errors.name && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.name}</p>}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
               <div>
-                <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Email Address</label>
+                <label className="block text-[11px] font-black text-stone-400 dark:text-[color:var(--color-rescue-text-muted)] uppercase tracking-wider">Email Address</label>
                 <input
                   type="email"
                   placeholder="you@example.com"
                   value={form.email}
                   onChange={handleChange('email')}
-                  className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.email ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
+                  className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 dark:bg-[color:var(--color-rescue-bg)] text-sm font-medium text-stone-800 dark:text-[color:var(--color-rescue-text)] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.email ? 'border-rose-400' : 'border-[#E6ECE8] dark:border-[color:var(--color-rescue-border)]'}`}
                 />
                 {errors.email && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.email}</p>}
               </div>
 
               <div>
-                <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Phone Number</label>
+                <label className="block text-[11px] font-black text-stone-400 dark:text-[color:var(--color-rescue-text-muted)] uppercase tracking-wider">Phone Number</label>
                 <input
                   type="tel"
                   placeholder="+880 1XXX-XXXXXX"
                   value={form.phone}
                   onChange={handleChange('phone')}
-                  className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.phone ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
+                  className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 dark:bg-[color:var(--color-rescue-bg)] text-sm font-medium text-stone-800 dark:text-[color:var(--color-rescue-text)] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.phone ? 'border-rose-400' : 'border-[#E6ECE8] dark:border-[color:var(--color-rescue-border)]'}`}
                 />
                 {errors.phone && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.phone}</p>}
               </div>
             </div>
 
             <div>
-              <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">I am a...</label>
+              <label className="block text-[11px] font-black text-stone-400 dark:text-[color:var(--color-rescue-text-muted)] uppercase tracking-wider">I am a...</label>
               <div className="grid grid-cols-3 gap-2 mt-1">
                 {ROLES.map((role) => {
                   const RoleIcon = role.icon;
+                  const selected = form.role === role.id;
                   return (
                     <button
                       key={role.id}
                       type="button"
-                      onClick={() => { 
-                        setForm((prev) => ({ ...prev, role: role.id, preferredFoodType: '' })); 
-                        setErrors((prev) => { const next = { ...prev }; delete next.preferredFoodType; return next; }); 
+                      onClick={() => {
+                        setForm((prev) => ({ ...prev, role: role.id, preferredFoodType: '' }));
+                        setErrors((prev) => { const next = { ...prev }; delete next.preferredFoodType; return next; });
                       }}
                       className={`p-2.5 rounded-[1rem] border-2 text-center transition-all duration-200 ${
-                        form.role === role.id
-                          ? 'border-[#0F9F76] bg-[#E6F5F0] shadow-md'
-                          : 'border-[#E6ECE8] bg-white hover:border-[#CBECE2]'
+                        selected
+                          ? 'border-[#0F9F76] bg-[#E6F5F0] dark:bg-[#0F9F76]/20 shadow-md text-[#0F9F76]'
+                          : 'border-[#E6ECE8] dark:border-[color:var(--color-rescue-border)] bg-white dark:bg-[color:var(--color-rescue-surface)] hover:border-[#CBECE2] dark:hover:border-[#0F9F76]'
                       }`}
                     >
                       <div className="flex justify-center mb-0.5">
                         <RoleIcon size={18} className="text-[#0F9F76]" />
                       </div>
-                      <span className={`text-[11px] font-black uppercase tracking-wider ${form.role === role.id ? 'text-[#0F9F76]' : 'text-stone-500'}`}>
+                      <span className={`text-[11px] font-black uppercase tracking-wider ${selected ? 'text-[#0F9F76]' : 'text-stone-500 dark:text-[color:var(--color-rescue-text-muted)]'}`}>
                         {role.label}
                       </span>
                     </button>
@@ -173,24 +173,27 @@ export default function RegisterPage() {
 
             {form.role === 'ngo' && (
               <div>
-                <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Preferred Food Recipient Type</label>
+                <label className="block text-[11px] font-black text-stone-400 dark:text-[color:var(--color-rescue-text-muted)] uppercase tracking-wider">Preferred Food Recipient Type</label>
                 <div className="grid grid-cols-3 gap-2 mt-1">
-                  {['human', 'animal', 'both'].map((type) => (
-                    <button
-                      key={type}
-                      type="button"
-                      onClick={() => setForm((prev) => ({ ...prev, preferredFoodType: type }))}
-                      className={`p-2.5 rounded-[1rem] border-2 text-center transition-all duration-200 ${
-                        form.preferredFoodType === type
-                          ? 'border-[#0F9F76] bg-[#E6F5F0] shadow-md'
-                          : 'border-[#E6ECE8] bg-white hover:border-[#CBECE2]'
-                      }`}
-                    >
-                      <span className={`text-[10px] font-black uppercase tracking-wider ${form.preferredFoodType === type ? 'text-[#0F9F76]' : 'text-stone-500'}`}>
-                        {type === 'human' ? 'Human' : type === 'animal' ? 'Animal' : 'Both Human & Animal'}
-                      </span>
-                    </button>
-                  ))}
+                  {['human', 'animal', 'both'].map((type) => {
+                    const selected = form.preferredFoodType === type;
+                    return (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, preferredFoodType: type }))}
+                        className={`p-2.5 rounded-[1rem] border-2 text-center transition-all duration-200 ${
+                          selected
+                            ? 'border-[#0F9F76] bg-[#E6F5F0] dark:bg-[#0F9F76]/20 shadow-md'
+                            : 'border-[#E6ECE8] dark:border-[color:var(--color-rescue-border)] bg-white dark:bg-[color:var(--color-rescue-surface)] hover:border-[#CBECE2] dark:hover:border-[#0F9F76]'
+                        }`}
+                      >
+                        <span className={`text-[10px] font-black uppercase tracking-wider ${selected ? 'text-[#0F9F76]' : 'text-stone-500 dark:text-[color:var(--color-rescue-text-muted)]'}`}>
+                          {type === 'human' ? 'Human' : type === 'animal' ? 'Animal' : 'Both Human & Animal'}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
                 {errors.preferredFoodType && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.preferredFoodType}</p>}
               </div>
@@ -198,19 +201,19 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
               <div>
-                <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Password</label>
+                <label className="block text-[11px] font-black text-stone-400 dark:text-[color:var(--color-rescue-text-muted)] uppercase tracking-wider">Password</label>
                 <div className="relative mt-1">
                   <input
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Min. 6 characters"
                     value={form.password}
                     onChange={handleChange('password')}
-                    className={`w-full p-2.5 pr-10 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.password ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
+                    className={`w-full p-2.5 pr-10 rounded-[1rem] border bg-[#F4F7F5]/80 dark:bg-[color:var(--color-rescue-bg)] text-sm font-medium text-stone-800 dark:text-[color:var(--color-rescue-text)] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.password ? 'border-rose-400' : 'border-[#E6ECE8] dark:border-[color:var(--color-rescue-border)]'}`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-base p-1 hover:scale-110 transition-transform text-stone-500"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-base p-1 hover:scale-110 transition-transform text-stone-500 dark:text-[color:var(--color-rescue-text-muted)]"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -220,13 +223,13 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-[11px] font-black text-stone-400 uppercase tracking-wider">Confirm Password</label>
+                <label className="block text-[11px] font-black text-stone-400 dark:text-[color:var(--color-rescue-text-muted)] uppercase tracking-wider">Confirm Password</label>
                 <input
                   type="password"
                   placeholder="Re-enter password"
                   value={form.confirmPassword}
                   onChange={handleChange('confirmPassword')}
-                  className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 text-sm font-medium focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.confirmPassword ? 'border-rose-400' : 'border-[#E6ECE8]'}`}
+                  className={`w-full mt-1 p-2.5 rounded-[1rem] border bg-[#F4F7F5]/80 dark:bg-[color:var(--color-rescue-bg)] text-sm font-medium text-stone-800 dark:text-[color:var(--color-rescue-text)] focus:border-[#0F9F76] focus:outline-none focus:ring-4 focus:ring-[#0F9F76]/5 ${errors.confirmPassword ? 'border-rose-400' : 'border-[#E6ECE8] dark:border-[color:var(--color-rescue-border)]'}`}
                 />
                 {errors.confirmPassword && <p className="text-rose-500 text-[11px] font-bold mt-0.5 ml-1">{errors.confirmPassword}</p>}
               </div>
@@ -242,7 +245,7 @@ export default function RegisterPage() {
           </form>
 
           <div className="mt-3">
-            <p className="text-center text-xs text-stone-500 font-medium">
+            <p className="text-center text-xs text-stone-500 dark:text-[color:var(--color-rescue-text-muted)] font-medium">
               Already have an account?{' '}
               <Link to="/login" className="text-[#0F9F76] font-bold hover:underline">
                 Sign in

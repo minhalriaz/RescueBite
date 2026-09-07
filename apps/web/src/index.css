@@ -2,48 +2,76 @@
 
 /*
  * RescueBite theme tokens.
+ *
+ * Black / charcoal dark theme (green is used ONLY as an accent).
  * Light values are the defaults; the `.dark` class on <html> overrides them.
  */
 :root {
-  --color-rescue-green: #0F9F76;
-  --color-rescue-green-dark: #0C8562;
-  --color-rescue-deep: #0D4436;
-  --color-rescue-bg: #F4F7F5;
-  --color-rescue-surface: #FFFFFF;
-  --color-rescue-border: #E6ECE8;
-  --color-rescue-accent-soft: #E6F5F0;
-  --color-rescue-text: #0D4436;
-  --color-rescue-text-muted: #6B7270;
-  --color-rescue-footer: #092B22;
+  /* Green accent (used for buttons, active states, icons, badges, borders) */
+  --color-rescue-green: #0f9f76;
+  --color-rescue-green-dark: #0c8562;
+  --color-rescue-green-tint: #cbece2;
+  --color-rescue-deep: #0d4436;
+
+  /* Neutral surfaces */
+  --color-rescue-bg: #f4f7f5;
+  --color-rescue-surface: #ffffff;
+  --color-rescue-surface-alt: #e9eceb;
+  --color-rescue-border: #d9e0dc;
+  --color-rescue-accent-soft: #e6f5f0;
+  --color-rescue-accent-soft-alt: #dcf1ec;
+
+  /* Text */
+  --color-rescue-text: #0d4436;
+  --color-rescue-text-muted: #6b7270;
+  --color-rescue-footer: #092b22;
 }
 
 .dark {
-  --color-rescue-green: #10B981;
+  /* Green accent stays the pops-of-color on charcoal */
+  --color-rescue-green: #10b981;
   --color-rescue-green-dark: #0d9a6e;
-  --color-rescue-deep: #f4f7f6;
-  --color-rescue-bg: #0f1110;
-  --color-rescue-surface: #16191a;
-  --color-rescue-border: #23272a;
-  --color-rescue-accent-soft: #1c1f1e;
+  --color-rescue-green-tint: #2bb389;
+  --color-rescue-deep: #0e2a26;
+
+  /* Black / charcoal surfaces */
+  --color-rescue-bg: #080b0d;
+  --color-rescue-surface: #10161a;
+  --color-rescue-surface-alt: #151d21;
+  --color-rescue-border: #242a2e;
+  --color-rescue-accent-soft: #10231f;
+  --color-rescue-accent-soft-alt: #0f3b32;
+
+  /* Text */
   --color-rescue-text: #f4f7f6;
-  --color-rescue-text-muted: #9aa6a2;
-  --color-rescue-footer: #061f18;
+  --color-rescue-text-muted: #9ba4a0;
+  --color-rescue-footer: #0a0f11;
 }
 
 @theme {
   --color-rescue-green: var(--color-rescue-green);
   --color-rescue-green-dark: var(--color-rescue-green-dark);
+  --color-rescue-green-tint: var(--color-rescue-green-tint);
   --color-rescue-deep: var(--color-rescue-deep);
   --color-rescue-bg: var(--color-rescue-bg);
   --color-rescue-surface: var(--color-rescue-surface);
+  --color-rescue-surface-alt: var(--color-rescue-surface-alt);
   --color-rescue-border: var(--color-rescue-border);
   --color-rescue-accent-soft: var(--color-rescue-accent-soft);
+  --color-rescue-accent-soft-alt: var(--color-rescue-accent-soft-alt);
   --color-rescue-text: var(--color-rescue-text);
   --color-rescue-text-muted: var(--color-rescue-text-muted);
   --color-rescue-footer: var(--color-rescue-footer);
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Ensure unclassed text and bare pages default to the theme palette so
+   nothing ever renders with a fixed (unadapted) color. */
+html {
+  background-color: var(--color-rescue-bg);
+  color: var(--color-rescue-text);
+}
 
 /* Subtle per-image hero collage animations. The collage grid itself never moves. */
 @keyframes collage-float {

@@ -43,25 +43,25 @@ export default function BrowseFoodDonations() {
     <DashboardShell role="ngo">
       <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-sm font-semibold text-emerald-600">Find food near you</p>
-          <h1 className="mt-1 text-3xl font-bold text-gray-900">Browse Food Donations</h1>
+          <p className="text-sm font-semibold text-[#0F9F76]">Find food near you</p>
+          <h1 className="mt-1 text-3xl font-bold text-[color:var(--color-rescue-text)]">Browse Food Donations</h1>
         </div>
-        <p className="text-sm text-gray-500">{filteredDonations.length} donations available</p>
+        <p className="text-sm text-[color:var(--color-rescue-text-muted)]">{filteredDonations.length} donations available</p>
       </div>
 
-      <section className="mt-6 rounded-3xl border border-gray-100 bg-white p-4 shadow-md">
+      <section className="mt-6 rounded-3xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-surface)] p-4 shadow-md">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
           <label className="relative md:col-span-2 lg:col-span-1">
-            <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search donations" className="w-full rounded-xl bg-gray-100 py-3 pl-10 pr-3 text-sm outline-none focus:ring-2 focus:ring-emerald-400" />
+            <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-[color:var(--color-rescue-text-muted)]" />
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search donations" className="w-full rounded-xl bg-[color:var(--color-rescue-bg)] py-3 pl-10 pr-3 text-sm text-[color:var(--color-rescue-text)] outline-none focus:ring-2 focus:ring-[#0F9F76]" />
           </label>
-          <select value={location} onChange={e => setLocation(e.target.value)} className="rounded-xl bg-gray-100 px-3 py-3 text-sm text-gray-700 outline-none focus:ring-2 focus:ring-emerald-400">
+          <select value={location} onChange={e => setLocation(e.target.value)} className="rounded-xl bg-[color:var(--color-rescue-bg)] px-3 py-3 text-sm text-[color:var(--color-rescue-text)] outline-none focus:ring-2 focus:ring-[#0F9F76]">
             <option>All locations</option><option>Dhanmondi</option><option>Mirpur</option>
           </select>
-          <select value={foodType} onChange={e => setFoodType(e.target.value)} className="rounded-xl bg-gray-100 px-3 py-3 text-sm text-gray-700 outline-none focus:ring-2 focus:ring-emerald-400">
+          <select value={foodType} onChange={e => setFoodType(e.target.value)} className="rounded-xl bg-[color:var(--color-rescue-bg)] px-3 py-3 text-sm text-[color:var(--color-rescue-text)] outline-none focus:ring-2 focus:ring-[#0F9F76]">
             <option>All food types</option><option>Human Food</option><option>Animal Feed</option>
           </select>
-          <select value={availability} onChange={e => setAvailability(e.target.value)} className="rounded-xl bg-gray-100 px-3 py-3 text-sm text-gray-700 outline-none focus:ring-2 focus:ring-emerald-400">
+          <select value={availability} onChange={e => setAvailability(e.target.value)} className="rounded-xl bg-[color:var(--color-rescue-bg)] px-3 py-3 text-sm text-[color:var(--color-rescue-text)] outline-none focus:ring-2 focus:ring-[#0F9F76]">
             <option>Available</option><option>All statuses</option>
           </select>
         </div>
@@ -69,13 +69,13 @@ export default function BrowseFoodDonations() {
 
       {loading && (
         <div className="flex items-center justify-center py-16">
-          <LoaderCircle className="animate-spin text-emerald-500" size={32} />
+          <LoaderCircle className="animate-spin text-[#0F9F76]" size={32} />
         </div>
       )}
 
       {error && !loading && (
-        <div className="mt-6 rounded-xl border border-rose-200 bg-rose-50 dark:bg-rose-900/20 p-4 text-sm text-rose-700 dark:text-rose-300">
-          {error} <button onClick={fetchDonations} className="ml-2 font-bold underline">Retry</button>
+        <div className="mt-6 rounded-xl border border-rose-500/30 bg-rose-500/5 p-4 text-sm text-rose-300">
+          {error} <button onClick={fetchDonations} className="ml-2 font-bold underline text-rose-200">Retry</button>
         </div>
       )}
 

@@ -38,7 +38,7 @@ export default function FoodCard({ donation }) {
             <MapPin size={16} className="text-[#0F9F76]" />
             {donation.address}
           </p>
-          <p className="flex items-center gap-2 text-rose-600">
+          <p className="flex items-center gap-2 text-rose-600 dark:text-rose-400">
             <Clock3 size={16} />
             Expires {timeUntil(donation.pickup_deadline)}
           </p>

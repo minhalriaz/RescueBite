@@ -71,7 +71,7 @@ export function NotificationProvider({ children }) {
   }, [unreadCount]);
 
   useEffect(() => {
-    refreshNotifications();
+    const timer = setTimeout(() => { refreshNotifications(); }, 0);
 
     const handleAuthChange = () => refreshNotifications();
     window.addEventListener("rescuebite:auth-changed", handleAuthChange);
@@ -103,6 +103,7 @@ export function NotificationProvider({ children }) {
       window.removeEventListener("rescuebite:auth-changed", handleAuthChange);
       window.removeEventListener("focus", handleFocus);
       window.clearInterval(interval);
+      clearTimeout(timer);
     };
   }, [refreshNotifications]);
 
@@ -123,6 +124,7 @@ export function NotificationProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useNotifications() {
   const context = useContext(NotificationContext);
 

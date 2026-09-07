@@ -4,13 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api/client";
 import { dashboardForRole, setSession } from "../lib/auth";
 
-const demoAccounts = [
-  { label: "Donor demo", email: "donor@rescuebite.test" },
-  { label: "Human NGO", email: "human.ngo@rescuebite.test" },
-  { label: "Animal NGO", email: "animal.ngo@rescuebite.test" },
-  { label: "Both NGO", email: "both.ngo@rescuebite.test" },
-];
-
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -49,7 +42,9 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md rounded-[2rem] bg-white p-7 md:p-9 shadow-2xl">
         <div className="text-center">
-          <img src="/rescuebite-icon.svg" alt="RescueBite" className="mx-auto h-12 w-12" />
+          <Link to="/" className="inline-block focus:outline-none focus:ring-2 focus:ring-emerald-400 rounded-lg">
+            <img src="/rescuebite-icon.svg" alt="RescueBite" className="mx-auto h-12 w-12" />
+          </Link>
           <h1 className="mt-3 text-3xl font-extrabold text-[#0D4436]">Welcome Back</h1>
           <p className="mt-1 text-sm text-stone-400">Sign in to RescueBite</p>
         </div>
@@ -77,18 +72,6 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
-
-        <div className="mt-6 border-t border-stone-100 pt-5">
-          <p className="text-center text-xs font-bold uppercase tracking-wider text-stone-400">Checkpoint 2 demo accounts</p>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            {demoAccounts.map((account) => (
-              <button key={account.email} type="button" disabled={loading} onClick={() => login(account.email, "password")} className="rounded-lg border border-emerald-100 bg-emerald-50 px-2 py-2 text-xs font-semibold text-emerald-700 hover:bg-emerald-100 disabled:opacity-50">
-                {account.label}
-              </button>
-            ))}
-          </div>
-          <p className="mt-3 text-center text-[11px] text-stone-400">Run the Laravel database seeder before using demo login.</p>
-        </div>
 
         <p className="mt-5 text-center text-sm text-stone-500">
           New to RescueBite? <Link to="/register" className="font-bold text-[#0F9F76] hover:underline">Create account</Link>

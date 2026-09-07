@@ -1,1 +1,73 @@
 @import "tailwindcss";
+
+/*
+ * RescueBite theme tokens.
+ * Light values are the defaults; the `.dark` class on <html> overrides them.
+ */
+:root {
+  --color-rescue-green: #0F9F76;
+  --color-rescue-green-dark: #0C8562;
+  --color-rescue-deep: #0D4436;
+  --color-rescue-bg: #F4F7F5;
+  --color-rescue-surface: #FFFFFF;
+  --color-rescue-border: #E6ECE8;
+  --color-rescue-accent-soft: #E6F5F0;
+  --color-rescue-text: #0D4436;
+  --color-rescue-text-muted: #6B7270;
+  --color-rescue-footer: #092B22;
+}
+
+.dark {
+  --color-rescue-green: #10B981;
+  --color-rescue-green-dark: #0d9a6e;
+  --color-rescue-deep: #f4f7f6;
+  --color-rescue-bg: #0f1110;
+  --color-rescue-surface: #16191a;
+  --color-rescue-border: #23272a;
+  --color-rescue-accent-soft: #1c1f1e;
+  --color-rescue-text: #f4f7f6;
+  --color-rescue-text-muted: #9aa6a2;
+  --color-rescue-footer: #061f18;
+}
+
+@theme {
+  --color-rescue-green: var(--color-rescue-green);
+  --color-rescue-green-dark: var(--color-rescue-green-dark);
+  --color-rescue-deep: var(--color-rescue-deep);
+  --color-rescue-bg: var(--color-rescue-bg);
+  --color-rescue-surface: var(--color-rescue-surface);
+  --color-rescue-border: var(--color-rescue-border);
+  --color-rescue-accent-soft: var(--color-rescue-accent-soft);
+  --color-rescue-text: var(--color-rescue-text);
+  --color-rescue-text-muted: var(--color-rescue-text-muted);
+  --color-rescue-footer: var(--color-rescue-footer);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Subtle per-image hero collage animations. The collage grid itself never moves. */
+@keyframes collage-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes collage-scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.collage-float {
+  animation: collage-float 6s ease-in-out infinite;
+}
+
+.collage-scale {
+  animation: collage-scale 7s ease-in-out infinite;
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  .collage-float,
+  .collage-scale {
+    animation: none;
+  }
+}

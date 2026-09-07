@@ -44,13 +44,13 @@ export default function CreateDonation() {
     <DashboardShell role="donor">
       <div className="mx-auto max-w-3xl">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-emerald-600">Donor workflow</p>
-          <h1 className="mt-1 text-3xl font-bold text-gray-900">Create food donation</h1>
-          <p className="mt-2 text-sm text-gray-500">Publishing this post immediately creates in-app alerts for eligible NGOs.</p>
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#0F9F76]">Donor workflow</p>
+          <h1 className="mt-1 text-3xl font-bold text-[color:var(--color-rescue-text)]">Create food donation</h1>
+          <p className="mt-2 text-sm text-[color:var(--color-rescue-text-muted)]">Publishing this post immediately creates in-app alerts for eligible NGOs.</p>
         </div>
 
         {success ? (
-          <div className="mt-6 flex gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-800">
+          <div className="mt-6 flex gap-3 rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 p-4 text-emerald-800 dark:text-emerald-200">
             <CheckCircle2 className="mt-0.5 shrink-0" size={20} />
             <div>
               <p className="font-semibold">Donation published successfully.</p>
@@ -60,31 +60,31 @@ export default function CreateDonation() {
         ) : null}
 
         {error ? (
-          <div className="mt-6 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm font-medium text-rose-700">{error}</div>
+          <div className="mt-6 rounded-2xl border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-900/20 p-4 text-sm font-medium text-rose-700 dark:text-rose-300">{error}</div>
         ) : null}
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-5 rounded-3xl border border-gray-100 bg-white p-6 md:p-8 shadow-sm">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-5 rounded-3xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-surface)] p-6 md:p-8 shadow-sm">
           <div>
-            <label className="text-sm font-semibold text-gray-700">Food</label>
-            <input required value={form.food} onChange={update("food")} placeholder="Cooked meals" className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100" />
+            <label className="text-sm font-semibold text-[color:var(--color-rescue-text)]">Food</label>
+            <input required value={form.food} onChange={update("food")} placeholder="Cooked meals" className="mt-2 w-full rounded-xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-bg)] px-4 py-3 text-sm text-[color:var(--color-rescue-text)] outline-none focus:border-[#0F9F76] focus:ring-2 focus:ring-[#0F9F76]/20" />
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
             <div>
-              <label className="text-sm font-semibold text-gray-700">Quantity</label>
-              <input required value={form.quantity} onChange={update("quantity")} placeholder="Approximately 30 servings" className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100" />
+              <label className="text-sm font-semibold text-[color:var(--color-rescue-text)]">Quantity</label>
+              <input required value={form.quantity} onChange={update("quantity")} placeholder="Approximately 30 servings" className="mt-2 w-full rounded-xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-bg)] px-4 py-3 text-sm text-[color:var(--color-rescue-text)] outline-none focus:border-[#0F9F76] focus:ring-2 focus:ring-[#0F9F76]/20" />
             </div>
             <div>
-              <label className="text-sm font-semibold text-gray-700">Pickup deadline</label>
-              <input required type="datetime-local" value={form.pickup_deadline} onChange={update("pickup_deadline")} className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100" />
+              <label className="text-sm font-semibold text-[color:var(--color-rescue-text)]">Pickup deadline</label>
+              <input required type="datetime-local" value={form.pickup_deadline} onChange={update("pickup_deadline")} className="mt-2 w-full rounded-xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-bg)] px-4 py-3 text-sm text-[color:var(--color-rescue-text)] outline-none focus:border-[#0F9F76] focus:ring-2 focus:ring-[#0F9F76]/20" />
             </div>
           </div>
 
           <fieldset>
-            <legend className="text-sm font-semibold text-gray-700">Beneficiary</legend>
+            <legend className="text-sm font-semibold text-[color:var(--color-rescue-text)]">Beneficiary</legend>
             <div className="mt-2 grid grid-cols-2 gap-3">
               {["human", "animal"].map((type) => (
-                <label key={type} className={`cursor-pointer rounded-xl border p-4 text-center font-semibold capitalize ${form.beneficiary_type === type ? "border-emerald-500 bg-emerald-50 text-emerald-700" : "border-gray-200 text-gray-600"}`}>
+                <label key={type} className={`cursor-pointer rounded-xl border p-4 text-center font-semibold capitalize ${form.beneficiary_type === type ? "border-[#0F9F76] bg-[color:var(--color-rescue-accent-soft)] text-[#0F9F76]" : "border-[color:var(--color-rescue-border)] text-[color:var(--color-rescue-text-muted)]"}`}>
                   <input type="radio" name="beneficiary_type" value={type} checked={form.beneficiary_type === type} onChange={update("beneficiary_type")} className="sr-only" />
                   {type}
                 </label>
@@ -93,16 +93,16 @@ export default function CreateDonation() {
           </fieldset>
 
           <div>
-            <label className="text-sm font-semibold text-gray-700">Pickup address</label>
-            <input required value={form.address} onChange={update("address")} placeholder="Dhanmondi, Dhaka" className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100" />
+            <label className="text-sm font-semibold text-[color:var(--color-rescue-text)]">Pickup address</label>
+            <input required value={form.address} onChange={update("address")} placeholder="Dhanmondi, Dhaka" className="mt-2 w-full rounded-xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-bg)] px-4 py-3 text-sm text-[color:var(--color-rescue-text)] outline-none focus:border-[#0F9F76] focus:ring-2 focus:ring-[#0F9F76]/20" />
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-gray-700">Description <span className="font-normal text-gray-400">(optional)</span></label>
-            <textarea value={form.description} onChange={update("description")} rows="4" placeholder="Pickup instructions or food details" className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100" />
+            <label className="text-sm font-semibold text-[color:var(--color-rescue-text)]">Description <span className="font-normal text-[color:var(--color-rescue-text-muted)]">(optional)</span></label>
+            <textarea value={form.description} onChange={update("description")} rows="4" placeholder="Pickup instructions or food details" className="mt-2 w-full rounded-xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-bg)] px-4 py-3 text-sm text-[color:var(--color-rescue-text)] outline-none focus:border-[#0F9F76] focus:ring-2 focus:ring-[#0F9F76]/20" />
           </div>
 
-          <button disabled={submitting} className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3.5 font-bold text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-60">
+          <button disabled={submitting} className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0F9F76] px-5 py-3.5 font-bold text-white hover:bg-[#0C8562] disabled:cursor-not-allowed disabled:opacity-60">
             {submitting ? <LoaderCircle className="animate-spin" size={19} /> : null}
             {submitting ? "Publishing..." : "Publish donation"}
           </button>

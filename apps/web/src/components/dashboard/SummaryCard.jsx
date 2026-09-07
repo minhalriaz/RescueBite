@@ -1,25 +1,25 @@
 const colorStyles = {
   emerald: {
-    icon: "bg-emerald-100 text-emerald-600",
-    badge: "bg-emerald-100 text-emerald-700",
-    graph: "bg-emerald-500",
+    icon: "bg-[color:var(--color-rescue-accent-soft)] text-[#0F9F76]",
+    badge: "bg-[color:var(--color-rescue-accent-soft)] text-[#0F9F76]",
+    graph: "bg-[#0F9F76]",
   },
 
   blue: {
-    icon: "bg-blue-100 text-blue-600",
-    badge: "bg-blue-100 text-blue-700",
+    icon: "bg-blue-100 dark:bg-blue-900/30 text-blue-600",
+    badge: "bg-blue-100 dark:bg-blue-900/30 text-blue-700",
     graph: "bg-blue-500",
   },
 
   violet: {
-    icon: "bg-violet-100 text-violet-600",
-    badge: "bg-violet-100 text-violet-700",
+    icon: "bg-violet-100 dark:bg-violet-900/30 text-violet-600",
+    badge: "bg-violet-100 dark:bg-violet-900/30 text-violet-700",
     graph: "bg-violet-500",
   },
 
   orange: {
-    icon: "bg-orange-100 text-orange-600",
-    badge: "bg-orange-100 text-orange-700",
+    icon: "bg-orange-100 dark:bg-orange-900/30 text-orange-600",
+    badge: "bg-orange-100 dark:bg-orange-900/30 text-orange-700",
     graph: "bg-orange-500",
   },
 };
@@ -38,9 +38,9 @@ export default function SummaryCard({
   return (
     <div
       className={`
-      bg-white
+      bg-[color:var(--color-rescue-surface)]
       rounded-3xl
-      border border-gray-100
+      border border-[color:var(--color-rescue-border)]
       shadow-md
       ${compact ? "px-4 py-4" : "px-5 py-5"}
       transition-all
@@ -49,10 +49,7 @@ export default function SummaryCard({
       hover:shadow-xl
     `}
     >
-      {/* Top */}
-
       <div className="flex items-center justify-between">
-
         <div
           className={`
             ${compact ? "w-10 h-10" : "w-12 h-12"}
@@ -78,31 +75,21 @@ export default function SummaryCard({
         >
           {trend}
         </span>
-
       </div>
 
-      {/* Title */}
-
-      <h3 className={`${compact ? "mt-3" : "mt-4"} text-sm font-medium text-gray-500`}>
+      <h3 className={`${compact ? "mt-3" : "mt-4"} text-sm font-medium text-[color:var(--color-rescue-text-muted)]`}>
         {title}
       </h3>
 
-      {/* Value */}
-
-      <h2 className={`${compact ? "text-3xl" : "text-4xl"} mt-1 font-bold text-gray-900`}>
+      <h2 className={`${compact ? "text-3xl" : "text-4xl"} mt-1 font-bold text-[color:var(--color-rescue-text)]`}>
         {value}
       </h2>
 
-      {/* Subtitle */}
-
-      <p className="mt-1 text-sm text-gray-500">
+      <p className="mt-1 text-sm text-[color:var(--color-rescue-text-muted)]">
         {subtitle}
       </p>
 
-      {/* Mini Graph */}
-
       <div className={`${compact ? "mt-3 h-5" : "mt-4 h-7"} flex items-end gap-1`}>
-
         {[5, 8, 6, 11, 9, 13, 12, 15].map((height, index) => (
           <div
             key={index}
@@ -115,7 +102,6 @@ export default function SummaryCard({
             `}
           />
         ))}
-
       </div>
 
     </div>

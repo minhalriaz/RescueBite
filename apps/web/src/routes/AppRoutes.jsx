@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import App from "../App";
 import { NotificationProvider } from "../context/NotificationContext";
+import { ThemeProvider } from "../context/ThemeContext";
 
 import CreateDonation from "../pages/CreateDonation";
 import DonorDashboard from "../pages/DonorDashboard";
@@ -23,8 +24,9 @@ import ProtectedRoute from "./ProtectedRoute";
 export default function AppRoutes() {
   return (
     <Router>
-      <NotificationProvider>
-        <Routes>
+      <ThemeProvider>
+        <NotificationProvider>
+          <Routes>
           <Route path="/" element={<App />} />
 
           <Route path="/login" element={<LoginPage />} />
@@ -152,6 +154,7 @@ export default function AppRoutes() {
           />
         </Routes>
       </NotificationProvider>
-    </Router>
+    </ThemeProvider>
+  </Router>
   );
 }

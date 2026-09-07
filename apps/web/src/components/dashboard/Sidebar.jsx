@@ -10,7 +10,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import { api } from "../../api/client";
 import { clearSession } from "../../lib/auth";
 
@@ -77,16 +77,18 @@ export default function Sidebar({ isOpen, setIsOpen, role = "donor" }) {
         <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setIsOpen(false)} />
       ) : null}
 
-      <aside className={`fixed top-0 left-0 z-50 h-screen w-64 bg-white border-r border-gray-200 shadow-sm flex flex-col transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
-        <div className="border-b border-gray-100 px-6 py-6">
+      <aside className={`fixed top-0 left-0 z-50 h-screen w-64 bg-[color:var(--color-rescue-surface)] border-r border-[color:var(--color-rescue-border)] shadow-sm flex flex-col transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+        <div className="border-b border-[color:var(--color-rescue-border)] px-6 py-6">
           <div className="flex items-center">
-            <img src="/rescuebite-icon.svg" alt="RescueBite" className="h-11 w-auto" />
-            <div className="ml-3">
-              <h1 className="text-xl font-bold text-emerald-600">RescueBite</h1>
-              <p className="text-xs text-gray-500">{dashboardLabels[role] || "Dashboard"}</p>
-            </div>
+            <Link to="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-emerald-400 rounded-lg">
+              <img src="/rescuebite-icon.svg" alt="RescueBite" className="h-11 w-auto" />
+              <div className="ml-3">
+                <h1 className="text-xl font-bold text-[#0F9F76]">RescueBite</h1>
+                <p className="text-xs text-[color:var(--color-rescue-text-muted)]">{dashboardLabels[role] || "Dashboard"}</p>
+              </div>
+            </Link>
             <button onClick={() => setIsOpen(false)} className="ml-auto lg:hidden" aria-label="Close Sidebar">
-              <X size={22} />
+              <X size={22} className="text-[color:var(--color-rescue-text)]" />
             </button>
           </div>
         </div>
@@ -99,7 +101,7 @@ export default function Sidebar({ isOpen, setIsOpen, role = "donor" }) {
                 key={item.title}
                 to={item.path}
                 onClick={() => setIsOpen(false)}
-                className={({ isActive }) => `flex items-center gap-3 px-5 py-3 rounded-2xl transition-all duration-200 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-400 ${isActive ? "bg-emerald-500 text-white shadow" : "text-gray-600 hover:bg-emerald-50 hover:text-emerald-600"}`}
+                className={({ isActive }) => `flex items-center gap-3 px-5 py-3 rounded-2xl transition-all duration-200 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-400 ${isActive ? "bg-[#0F9F76] text-white shadow" : "text-[color:var(--color-rescue-text)] hover:bg-[color:var(--color-rescue-accent-soft)] hover:text-[#0F9F76]"}`}
               >
                 <Icon size={20} />
                 <span>{item.title}</span>
@@ -108,11 +110,11 @@ export default function Sidebar({ isOpen, setIsOpen, role = "donor" }) {
           })}
         </nav>
 
-        <div className="border-t border-gray-100 p-5">
+        <div className="border-t border-[color:var(--color-rescue-border)] p-5">
           <button
             type="button"
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-5 py-3 rounded-2xl text-red-500 hover:bg-red-50 transition"
+            className="w-full flex items-center gap-3 px-5 py-3 rounded-2xl text-red-500 hover:bg-red-500/10 transition"
           >
             <LogOut size={20} />
             <span className="font-medium">Logout</span>

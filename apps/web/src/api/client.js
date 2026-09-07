@@ -73,6 +73,12 @@ export const api = {
     body: JSON.stringify(donation),
   }),
 
+  getDonations: () => request("/donations"),
+
+  getMyDonations: () => request("/my-donations"),
+
+  getRequests: () => request("/requests"),
+
   getNotifications: () => request("/notifications"),
 
   markNotificationRead: (notificationId) => request(`/notifications/${notificationId}/read`, {

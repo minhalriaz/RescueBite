@@ -5,6 +5,9 @@ import FoodRescueCard from './components/homepage/FoodRescueCard';
 import LoadingSkeleton from './components/homepage/LoadingSkeleton';
 import HowItWorks from './components/homepage/HowItWorks';
 import ImpactSection from './components/homepage/ImpactSection';
+import UrgentRescue from './components/homepage/UrgentRescue';
+import CommunityHeroes from './components/homepage/CommunityHeroes';
+import EnvironmentalImpact from './components/homepage/EnvironmentalImpact';
 import ThemeToggle from './components/ThemeToggle';
 import { api } from './api/client';
 import { Pizza, Soup, Carrot, Home, Handshake, Bike, Backpack, Package, User, Search, X } from "lucide-react";
@@ -155,13 +158,13 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[color:var(--color-rescue-bg)] text-[color:var(--color-rescue-text)] font-sans flex flex-col selection:bg-[#0F9F76] selection:text-white pb-24 md:pb-0">
+    <div className="min-h-screen bg-[color:var(--color-rescue-bg)] text-[color:var(--color-rescue-text)] font-sans flex flex-col selection:bg-[#0F9F76] selection:text-white pb-24 md:pb-0 scroll-smooth">
 
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[400px] bg-gradient-to-r from-[color:var(--color-rescue-accent-soft)] via-[color:var(--color-rescue-bg)] to-[color:var(--color-rescue-accent-soft)] blur-3xl pointer-events-none -z-10" />
 
       <nav className="bg-[color:var(--color-rescue-surface)]/80 backdrop-blur-md border-b border-[color:var(--color-rescue-border)] sticky top-0 z-50 hidden md:block">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => setActiveTab('food')}>
+           <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => setActiveTab('food')}>
             <img src="/rescuebite-icon.svg" alt="RescueBite" className="h-9 w-auto group-hover:rotate-6 transition-transform duration-300" />
             <span className="font-extrabold text-2xl tracking-tight text-[#0F9F76]">
               RescueBite
@@ -196,7 +199,7 @@ export default function App() {
             </button>
             <Link
               to="/login"
-              className="text-xs font-black uppercase tracking-wider text-[color:var(--color-rescue-text-muted)] hover:text-[#0F9F76] border-2 border-[color:var(--color-rescue-border)] px-5 py-3 rounded-[1.25rem] hover:border-[#CBECE2] transition-all duration-300 bg-[color:var(--color-rescue-surface)]"
+              className="text-xs font-black uppercase tracking-wider text-[color:var(--color-rescue-text-muted)] hover:text-[#0F9F76] border-2 border-[color:var(--color-rescue-border)] px-5 py-3 rounded-[1.25rem] hover:border-[color:var(--color-rescue-green-tint)] transition-all duration-300 bg-[color:var(--color-rescue-surface)]"
             >
               Sign In
             </Link>
@@ -218,7 +221,7 @@ export default function App() {
       <main className="flex-grow">
         {donationSuccess && (
           <div className="mx-auto mt-6 max-w-7xl px-6">
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-800">
+            <div className="rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/25 p-4 text-sm font-semibold text-emerald-800 dark:text-emerald-200">
               {donationSuccess}
             </div>
           </div>
@@ -231,13 +234,19 @@ export default function App() {
               <HeroCarousel />
             </div>
 
+            <UrgentRescue
+              donations={donations}
+              loading={loadingDonations}
+              error={donationFetchError}
+            />
+
             <div className="flex justify-center mb-6">
               <div className="inline-flex bg-[color:var(--color-rescue-surface)] p-1.5 rounded-2xl border border-[color:var(--color-rescue-border)] shadow-sm gap-2">
                 <button
                   onClick={() => setSegmentFilter('all')}
                   className={`px-5 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all duration-300 ${
                     segmentFilter === 'all'
-                      ? 'bg-[color:var(--color-rescue-deep)] text-white shadow-md'
+                      ? 'bg-[#0F9F76] text-white shadow-md'
                       : 'text-[color:var(--color-rescue-text-muted)] hover:text-[#0F9F76]'
                   }`}
                 >
@@ -315,15 +324,15 @@ export default function App() {
             {loadingDonations ? (
               <LoadingSkeleton count={6} />
             ) : donationFetchError ? (
-              <div className="rounded-2xl border border-rose-200 bg-rose-50 dark:bg-rose-900/20 p-6 text-center">
-                <p className="text-rose-700 dark:text-rose-300 font-semibold">{donationFetchError}</p>
-                <button
-                  onClick={fetchDonations}
-                  className="mt-3 text-xs font-black uppercase text-[#0F9F76] hover:underline"
-                >
-                  Try Again
-                </button>
-              </div>
+                <div className="rounded-2xl border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-900/20 p-4 text-sm font-semibold text-rose-700 dark:text-rose-300">
+                  {donationFetchError}
+                  <button
+                    onClick={fetchDonations}
+                    className="mt-3 text-xs font-black uppercase text-[#0F9F76] hover:underline"
+                  >
+                    Try Again
+                  </button>
+                </div>
             ) : filteredDonations.length === 0 ? (
               <div className="rounded-3xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-surface)] p-12 text-center shadow-sm">
                 <div className="text-5xl mb-4">🍽️</div>
@@ -353,7 +362,6 @@ export default function App() {
             )}
 
             <ImpactSection />
-            <HowItWorks />
 
             <div className="mt-16 bg-[color:var(--color-rescue-surface)] p-6 md:p-8 rounded-[2rem] border border-[color:var(--color-rescue-border)] shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="max-w-md">
@@ -384,11 +392,15 @@ export default function App() {
               </div>
             </div>
 
+            <CommunityHeroes />
+            <EnvironmentalImpact donations={donations} loading={loadingDonations} />
+            <HowItWorks />
+
           </div>
         )}
 
         {activeTab === 'services' && (
-          <div className="max-w-5xl mx-auto px-6 py-12 bg-gradient-to-br from-[color:var(--color-rescue-accent-soft)] via-[color:var(--color-rescue-bg)] to-[color:var(--color-rescue-accent-soft)]">
+           <div className="max-w-5xl mx-auto px-6 py-12 bg-[color:var(--color-rescue-bg)]">
             <div className="text-center mb-12">
               <span className="inline-flex items-center gap-1.5 bg-[color:var(--color-rescue-surface)] text-[color:var(--color-rescue-text)] text-xs font-bold px-3 py-1.5 rounded-full border border-[color:var(--color-rescue-border)] uppercase tracking-wider mb-3">
                 <Backpack size={14} />
@@ -405,7 +417,7 @@ export default function App() {
                 <div
                   key={cat.id}
                   onClick={() => { setActiveTab('food'); }}
-                  className="bg-[color:var(--color-rescue-surface)] rounded-[2rem] p-6 border border-[color:var(--color-rescue-border)] shadow-[0_8px_25px_-10px_rgba(15,159,118,0.06)] hover:shadow-[0_12px_25px_-8px_rgba(15,159,118,0.12)] hover:border-[#CBECE2] hover:-translate-y-1 transition-all duration-300 text-center cursor-pointer group"
+                  className="bg-[color:var(--color-rescue-surface)] rounded-[2rem] p-6 border border-[color:var(--color-rescue-border)] shadow-[0_8px_25px_-10px_rgba(15,159,118,0.06)] hover:shadow-[0_12px_25px_-8px_rgba(15,159,118,0.12)] hover:border-[color:var(--color-rescue-green-tint)] hover:-translate-y-1 transition-all duration-300 text-center cursor-pointer group"
                 >
                   <div className="relative w-16 h-16 bg-[color:var(--color-rescue-accent-soft)] rounded-2xl flex items-center justify-center mx-auto transition-transform duration-300 group-hover:scale-110">
                     {cat.badge && (
@@ -432,7 +444,7 @@ export default function App() {
               <p className="text-[color:var(--color-rescue-text-muted)] font-medium text-sm mt-1">Let's prevent food wastage. Register your surplus meal below.</p>
 
               {donationError && (
-                <div className="mt-5 rounded-xl border border-rose-200 bg-rose-50 dark:bg-rose-900/20 p-3 text-sm font-semibold text-rose-700 dark:text-rose-300">
+                <div className="mt-5 rounded-xl border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-900/20 p-3 text-sm font-semibold text-rose-700 dark:text-rose-300">
                   {donationError}
                 </div>
               )}
@@ -456,7 +468,7 @@ export default function App() {
                   <legend className="block text-xs font-black text-[color:var(--color-rescue-text-muted)] uppercase tracking-wider">Beneficiary</legend>
                   <div className="grid grid-cols-2 gap-3 mt-2">
                     {['human', 'animal'].map((type) => (
-                      <label key={type} className={`cursor-pointer rounded-[1.15rem] border-2 p-3.5 text-center text-sm font-black uppercase tracking-wider transition-all ${donationForm.beneficiary_type === type ? 'border-[#0F9F76] bg-[color:var(--color-rescue-accent-soft)] text-[#0F9F76]' : 'border-[color:var(--color-rescue-border)] text-[color:var(--color-rescue-text-muted)] hover:border-[#CBECE2]'}`}>
+                      <label key={type} className={`cursor-pointer rounded-[1.15rem] border-2 p-3.5 text-center text-sm font-black uppercase tracking-wider transition-all ${donationForm.beneficiary_type === type ? 'border-[#0F9F76] bg-[color:var(--color-rescue-accent-soft)] text-[#0F9F76]' : 'border-[color:var(--color-rescue-border)] text-[color:var(--color-rescue-text-muted)] hover:border-[color:var(--color-rescue-green-tint)]'}`}>
                         <input type="radio" name="beneficiary_type" value={type} checked={donationForm.beneficiary_type === type} onChange={updateDonationField('beneficiary_type')} className="sr-only" />
                         {type}
                       </label>
@@ -482,7 +494,7 @@ export default function App() {
         )}
 
         {activeTab === 'volunteer' && (
-          <div className="max-w-xl mx-auto py-12 px-6 bg-gradient-to-br from-[color:var(--color-rescue-accent-soft)] via-[color:var(--color-rescue-bg)] to-[color:var(--color-rescue-accent-soft)]">
+           <div className="max-w-xl mx-auto py-12 px-6 bg-[color:var(--color-rescue-bg)]">
             <div className="bg-[color:var(--color-rescue-surface)] p-8 md:p-10 rounded-[2.5rem] border border-[color:var(--color-rescue-border)] shadow-[0_15px_45px_-12px_rgba(15,159,118,0.06)]">
               <div className="text-center">
                 <Bike size={48} className="mx-auto text-[#0F9F76]" strokeWidth={1.5} />

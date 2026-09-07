@@ -14,7 +14,7 @@ export default function NotificationItem({
         justify-between
         px-5
         py-4
-        hover:bg-emerald-50
+        hover:bg-[color:var(--color-rescue-accent-soft)]
         transition
       "
         >
@@ -41,15 +41,15 @@ export default function NotificationItem({
                 {/* Text */}
                 <div>
 
-                    <h4 className="font-semibold text-gray-800">
+                    <h4 className="font-semibold text-[color:var(--color-rescue-text)]">
                         {ngo}
                     </h4>
 
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-[color:var(--color-rescue-text-muted)] mt-1">
                         {message}
                     </p>
 
-                    <div className="flex items-center gap-1 mt-1 text-xs text-gray-400">
+                    <div className="flex items-center gap-1 mt-1 text-xs text-[color:var(--color-rescue-text-muted)]">
                         <Clock3 size={13} />
                         {time}
                     </div>

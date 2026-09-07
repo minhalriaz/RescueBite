@@ -19,7 +19,19 @@ import RegisterPage from "../pages/RegisterPage";
 import Settings from "../pages/Settings";
 import VolunteerDashboard from "../pages/VolunteerDashboard";
 
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminLogin from "../pages/admin/AdminLogin";
+import DonationManagement from "../pages/admin/DonationManagement";
+import NgoManagement from "../pages/admin/NgoManagement";
+import VolunteerManagement from "../pages/admin/VolunteerManagement";
+import DonorManagement from "../pages/admin/DonorManagement";
+import Reports from "../pages/admin/Reports";
+import ActivityLogs from "../pages/admin/ActivityLogs";
+import ReportedContent from "../pages/admin/ReportedContent";
+import AdminSettings from "../pages/admin/AdminSettings";
+
 import ProtectedRoute from "./ProtectedRoute";
+import AdminProtectedRoute from "./AdminProtectedRoute";
 
 export default function AppRoutes() {
   return (
@@ -150,6 +162,99 @@ export default function AppRoutes() {
               <ProtectedRoute allowedRoles={["volunteer"]}>
                 <VolunteerDashboard />
               </ProtectedRoute>
+            }
+          />
+
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+
+          <Route
+            path="/admin"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboard />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboard />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/ngos"
+            element={
+              <AdminProtectedRoute>
+                <NgoManagement />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/volunteers"
+            element={
+              <AdminProtectedRoute>
+                <VolunteerManagement />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/donors"
+            element={
+              <AdminProtectedRoute>
+                <DonorManagement />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/donations"
+            element={
+              <AdminProtectedRoute>
+                <DonationManagement />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/reports"
+            element={
+              <AdminProtectedRoute>
+                <Reports />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/activity"
+            element={
+              <AdminProtectedRoute>
+                <ActivityLogs />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/reported-content"
+            element={
+              <AdminProtectedRoute>
+                <ReportedContent />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/settings"
+            element={
+              <AdminProtectedRoute>
+                <AdminSettings />
+              </AdminProtectedRoute>
             }
           />
         </Routes>

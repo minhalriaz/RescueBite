@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import HeroCarousel from './components/HeroCarousel';
 import FoodRescueCard from './components/homepage/FoodRescueCard';
@@ -10,7 +10,7 @@ import CommunityHeroes from './components/homepage/CommunityHeroes';
 import EnvironmentalImpact from './components/homepage/EnvironmentalImpact';
 import ThemeToggle from './components/ThemeToggle';
 import { api } from './api/client';
-import { Pizza, Soup, Carrot, Home, Handshake, Bike, Backpack, Package, User, Search, X } from "lucide-react";
+import { Pizza, Soup, Carrot, Home, Handshake, Bike, Backpack, Package, User, Search, X, ChevronDown, ShieldCheck } from "lucide-react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const RESCUE_CATEGORIES = [
@@ -46,6 +46,20 @@ export default function App() {
   const [donationSubmitting, setDonationSubmitting] = useState(false);
   const [donationError, setDonationError] = useState('');
   const [donationSuccess, setDonationSuccess] = useState('');
+  const [signInOpen, setSignInOpen] = useState(false);
+  const signInRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (signInRef.current && !signInRef.current.contains(event.target)) {
+        setSignInOpen(false);
+      }
+    };
+    if (signInOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [signInOpen]);
 
   const fetchDonations = useCallback(async () => {
     setLoadingDonations(true);
@@ -197,12 +211,42 @@ export default function App() {
             >
               Donate Surplus Food
             </button>
-            <Link
-              to="/login"
-              className="text-xs font-black uppercase tracking-wider text-[color:var(--color-rescue-text-muted)] hover:text-[#0F9F76] border-2 border-[color:var(--color-rescue-border)] px-5 py-3 rounded-[1.25rem] hover:border-[color:var(--color-rescue-green-tint)] transition-all duration-300 bg-[color:var(--color-rescue-surface)]"
-            >
-              Sign In
-            </Link>
+            <div className="relative" ref={signInRef}>
+              <button
+                onClick={() => setSignInOpen((value) => !value)}
+                className="text-xs font-black uppercase tracking-wider text-[color:var(--color-rescue-text-muted)] hover:text-[#0F9F76] border-2 border-[color:var(--color-rescue-border)] px-5 py-3 rounded-[1.25rem] hover:border-[color:var(--color-rescue-green-tint)] transition-all duration-300 bg-[color:var(--color-rescue-surface)] inline-flex items-center gap-2"
+              >
+                Sign In
+                <ChevronDown size={16} className={`transition-transform duration-200 ${signInOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {signInOpen && (
+                <div className="absolute right-0 mt-3 w-64 origin-top-right rounded-2xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-surface)] shadow-2xl z-50 overflow-hidden">
+                  <div className="px-4 py-3">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-[color:var(--color-rescue-text-muted)]">User</p>
+                  </div>
+                  <div className="px-2 py-1.5 space-y-1">
+                    <Link to="/login" onClick={() => setSignInOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[color:var(--color-rescue-text)] hover:bg-[color:var(--color-rescue-accent-soft)] hover:text-[#0F9F76] transition-colors">
+                      <User size={18} /> Donor
+                    </Link>
+                    <Link to="/login" onClick={() => setSignInOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[color:var(--color-rescue-text)] hover:bg-[color:var(--color-rescue-accent-soft)] hover:text-[#0F9F76] transition-colors">
+                      <Handshake size={18} /> NGO
+                    </Link>
+                    <Link to="/login" onClick={() => setSignInOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[color:var(--color-rescue-text)] hover:bg-[color:var(--color-rescue-accent-soft)] hover:text-[#0F9F76] transition-colors">
+                      <Bike size={18} /> Volunteer
+                    </Link>
+                  </div>
+                  <div className="mx-3 my-1.5 h-px bg-[color:var(--color-rescue-border)]" />
+                  <div className="px-4 py-2">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-[color:var(--color-rescue-text-muted)]">Admin</p>
+                  </div>
+                  <div className="px-2 py-1.5">
+                    <Link to="/admin/login" onClick={() => setSignInOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[#0F9F76] hover:bg-[color:var(--color-rescue-accent-soft)] transition-colors">
+                      <ShieldCheck size={18} /> Admin Login
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </nav>

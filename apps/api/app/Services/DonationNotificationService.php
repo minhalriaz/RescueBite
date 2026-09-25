@@ -14,6 +14,7 @@ class DonationNotificationService
 
         User::query()
             ->where('role', 'ngo')
+            ->where('approval_status', 'approved')
             ->whereIn('beneficiary_preference', [$donation->beneficiary_type, 'both'])
             ->orderBy('id')
             ->chunkById(100, function ($ngos) use ($donation, &$created): void {

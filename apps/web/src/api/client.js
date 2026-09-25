@@ -1,4 +1,6 @@
-const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000/api").replace(/\/$/, "");
+import { clearSession } from "../lib/auth";
+
+const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:18080/api").replace(/\/$/, "");
 
 export class ApiError extends Error {
   constructor(message, status = 0, errors = null) {
@@ -45,8 +47,20 @@ async function request(path, options = {}) {
       ? Object.values(payload.errors).flat().find(Boolean)
       : null;
 
+    if (response.status === 401) {
+      clearSession();
+
+      if (window.location.pathname.startsWith("/admin")) {
+        window.location.assign("/admin/login");
+      }
+    }
+
+    const message = response.status === 403 && path.startsWith("/admin/")
+      ? "Admin access required."
+      : firstValidationError || payload.message || `Request failed with status ${response.status}.`;
+
     throw new ApiError(
-      firstValidationError || payload.message || `Request failed with status ${response.status}.`,
+      message,
       response.status,
       payload.errors || null,
     );
@@ -59,6 +73,50 @@ export const api = {
   login: (credentials) => request("/login", {
     method: "POST",
     body: JSON.stringify(credentials),
+  }),
+
+  getAdminDashboard: () => request("/admin/dashboard"),
+
+  getAdminNgos: () => request("/admin/ngos"),
+
+  approveNgo: (id) => request(`/admin/ngos/${id}/approve`, {
+    method: "PATCH",
+  }),
+
+  rejectNgo: (id) => request(`/admin/ngos/${id}/reject`, {
+    method: "PATCH",
+  }),
+
+  getAdminVolunteers: () => request("/admin/volunteers"),
+
+  approveVolunteer: (id) => request(`/admin/volunteers/${id}/approve`, {
+    method: "PATCH",
+  }),
+
+  rejectVolunteer: (id) => request(`/admin/volunteers/${id}/reject`, {
+    method: "PATCH",
+  }),
+
+  getAdminDonors: () => request("/admin/donors"),
+
+  getAdminDonations: () => request("/admin/donations"),
+
+  getAdminRequests: () => request("/admin/requests"),
+
+  reviewAdminRequest: (id, decision, review_note = "") => request(`/admin/requests/${id}/${decision}`, {
+    method: "PATCH",
+    body: JSON.stringify({ review_note }),
+  }),
+
+  getAdminReports: () => request("/admin/reports"),
+
+  getAdminActivity: () => request("/admin/activity"),
+
+  getAdminReportedContent: () => request("/admin/reported-content"),
+
+  resolveReport: (id, status, resolution_note = "") => request(`/admin/reported-content/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({ status, resolution_note }),
   }),
 
   register: (user) => request("/register", {
@@ -78,6 +136,23 @@ export const api = {
   getMyDonations: () => request("/my-donations"),
 
   getRequests: () => request("/requests"),
+
+  getNgoRequests: () => request("/ngo/requests"),
+
+  requestDonation: (donationId) => request(`/ngo/donations/${donationId}/request`, {
+    method: "POST",
+  }),
+
+  getVolunteerTasks: () => request("/volunteer/tasks"),
+
+  acceptPickup: (taskId) => request(`/volunteer/tasks/${taskId}/accept`, {
+    method: "PATCH",
+  }),
+
+  updatePickup: (taskId, status, completion_note = "") => request(`/volunteer/tasks/${taskId}`, {
+    method: "PATCH",
+    body: JSON.stringify({ status, completion_note }),
+  }),
 
   getNotifications: () => request("/notifications"),
 

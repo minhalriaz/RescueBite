@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 export default function NGODashboard() {
   const [donations, setDonations] = useState([]);
+  const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -26,11 +27,16 @@ export default function NGODashboard() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => { fetchDonations(); }, 0);
+    const timer = setTimeout(() => {
+      fetchDonations();
+      api.getNgoRequests().then((payload) => setRequests(payload.data || [])).catch(() => {});
+    }, 0);
     return () => clearTimeout(timer);
   }, [fetchDonations]);
 
   const available = donations.filter(d => d.status === 'available').length;
+  const pendingRequests = requests.filter((item) => item.status === 'pending').length;
+  const completedPickups = requests.filter((item) => item.status === 'completed').length;
 
   return (
     <DashboardShell role="ngo">
@@ -38,9 +44,9 @@ export default function NGODashboard() {
 
       <section className="grid grid-cols-1 gap-5 mt-6 md:grid-cols-2 xl:grid-cols-4">
         <SummaryCard title="Available Donations" value={String(available)} subtitle="Ready to request" trend="Live" color="emerald" icon={<Package size={22} />} />
-        <SummaryCard title="Pending Requests" value="—" subtitle="View requests" trend="" color="blue" icon={<Handshake size={22} />} />
-        <SummaryCard title="Completed Pickups" value="—" subtitle="This month" trend="" color="violet" icon={<CheckCircle2 size={22} />} />
-        <SummaryCard title="Meals Received" value="—" subtitle="This month" trend="" color="orange" icon={<Heart size={22} />} />
+        <SummaryCard title="Pending Requests" value={String(pendingRequests)} subtitle="View requests" trend="Live" color="blue" icon={<Handshake size={22} />} />
+        <SummaryCard title="Completed Pickups" value={String(completedPickups)} subtitle="Delivered" trend="Live" color="violet" icon={<CheckCircle2 size={22} />} />
+        <SummaryCard title="Meals Received" value="Tracked" subtitle="From completed pickups" trend="Live" color="orange" icon={<Heart size={22} />} />
       </section>
 
       {loading && (

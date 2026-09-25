@@ -1,8 +1,9 @@
-import { Bike, Clock3, MapPin, PackageCheck, SearchX, Truck } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Bike, Clock3, LoaderCircle, MapPin, PackageCheck, SearchX, Truck } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import DashboardShell from "../components/dashboard/DashboardShell";
 import HeroCollage from "../components/dashboard/HeroCollage";
 import SummaryCard from "../components/dashboard/SummaryCard";
+import { api } from "../api/client";
 
 const statusClasses = {
   available: "bg-emerald-100 text-emerald-700 ring-emerald-600/20",
@@ -11,7 +12,27 @@ const statusClasses = {
 };
 
 export default function VolunteerDashboard() {
-  const [tasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    api.getVolunteerTasks()
+      .then((response) => setTasks(response.data || []))
+      .catch((requestError) => setError(requestError.message || "Unable to load pickup tasks."))
+      .finally(() => setLoading(false));
+  }, []);
+
+  async function updateTask(task, nextStatus) {
+    try {
+      const response = task.status === "available"
+        ? await api.acceptPickup(task.id)
+        : await api.updatePickup(task.id, nextStatus);
+      setTasks((current) => current.map((item) => item.id === task.id ? response.task : item));
+    } catch (requestError) {
+      setError(requestError.message || "Unable to update pickup task.");
+    }
+  }
 
   const summary = useMemo(() => {
     if (tasks.length === 0) {
@@ -100,7 +121,9 @@ export default function VolunteerDashboard() {
             </p>
           </div>
 
-          {tasks.length === 0 && (
+          {error && <p className="mb-5 rounded-xl bg-rose-500/10 p-4 text-sm text-rose-600">{error}</p>}
+          {loading && <LoaderCircle className="mx-auto animate-spin text-[#0F9F76]" />}
+          {!loading && tasks.length === 0 && (
             <div className="mt-6 rounded-3xl border border-[color:var(--color-rescue-border)] bg-[color:var(--color-rescue-bg)] p-10 text-center">
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#0F9F76]/10 text-[#0F9F76]">
                 <SearchX className="h-8 w-8" />
@@ -117,7 +140,7 @@ export default function VolunteerDashboard() {
           {tasks.length > 0 && (
             <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {tasks.map((task) => (
-                <VolunteerTaskCard key={task.id} task={task} />
+                <VolunteerTaskCard key={task.id} task={task} onUpdate={updateTask} />
               ))}
             </div>
           )}
@@ -127,7 +150,7 @@ export default function VolunteerDashboard() {
   );
 }
 
-function VolunteerTaskCard({ task }) {
+function VolunteerTaskCard({ task, onUpdate }) {
   const statusLabel =
     task.status.charAt(0).toUpperCase() + task.status.slice(1);
 
@@ -139,7 +162,7 @@ function VolunteerTaskCard({ task }) {
             {task.id}
           </p>
           <h3 className="mt-2 text-lg font-bold text-[color:var(--color-rescue-text)]">
-            {task.title}
+            {task.food || "Pickup task"}
           </h3>
         </div>
         <span
@@ -163,7 +186,7 @@ function VolunteerTaskCard({ task }) {
             <div>
               <p className="font-semibold">Pickup</p>
               <p className="text-[color:var(--color-rescue-text-muted)]">
-                {task.pickupLocation}
+                {task.pickup_location}
               </p>
             </div>
           </div>
@@ -173,7 +196,7 @@ function VolunteerTaskCard({ task }) {
             <div>
               <p className="font-semibold">Destination</p>
               <p className="text-[color:var(--color-rescue-text-muted)]">
-                {task.destination}
+                {task.destination || "NGO recipient"}
               </p>
             </div>
           </div>
@@ -181,16 +204,23 @@ function VolunteerTaskCard({ task }) {
           <div className="flex items-center gap-3">
             <Bike size={16} className="text-[#0F9F76]" />
             <span className="text-[color:var(--color-rescue-text-muted)]">
-              {task.distance}
+              {task.quantity}
             </span>
           </div>
 
           <div className="flex items-center gap-3">
             <Clock3 size={16} className="text-[#0F9F76]" />
             <span className="text-[color:var(--color-rescue-text-muted)]">
-              {task.scheduledTime}
+              {task.status === "available" ? "Ready for acceptance" : task.status}
             </span>
           </div>
+        </div>
+        <div className="mt-5">
+          {task.status === "available" && <button onClick={() => onUpdate(task, "accepted")} className="w-full rounded-xl bg-[#0F9F76] px-4 py-3 text-sm font-bold text-white">Accept Pickup</button>}
+          {task.status === "accepted" && <button onClick={() => onUpdate(task, "en_route")} className="w-full rounded-xl bg-[#0F9F76] px-4 py-3 text-sm font-bold text-white">Start Route</button>}
+          {task.status === "en_route" && <button onClick={() => onUpdate(task, "picked_up")} className="w-full rounded-xl bg-[#0F9F76] px-4 py-3 text-sm font-bold text-white">Mark Picked Up</button>}
+          {task.status === "picked_up" && <button onClick={() => onUpdate(task, "delivered")} className="w-full rounded-xl bg-[#0F9F76] px-4 py-3 text-sm font-bold text-white">Mark Delivered</button>}
+          {task.status === "delivered" && <button onClick={() => onUpdate(task, "completed")} className="w-full rounded-xl bg-[#0F9F76] px-4 py-3 text-sm font-bold text-white">Complete Pickup</button>}
         </div>
       </div>
     </article>

@@ -7,8 +7,6 @@ import {
   Phone,
   Users,
   Package,
-  Utensils,
-  Handshake,
 } from "lucide-react";
 import DashboardShell from "../components/dashboard/DashboardShell";
 import SummaryCard from "../components/dashboard/SummaryCard";
@@ -40,7 +38,7 @@ export default function Profile({ role = "donor" }) {
               </div>
               <div>
                 <h2 className="text-xl font-bold text-[color:var(--color-rescue-text)]">
-                  Hope Foundation Bangladesh
+                  {storedUser?.name || "Organization"}
                 </h2>
                 <p className="mt-1 text-sm text-[color:var(--color-rescue-text-muted)]">
                   Non-Governmental Organization
@@ -56,24 +54,24 @@ export default function Profile({ role = "donor" }) {
           </div>
 
           <div className="grid gap-x-8 gap-y-5 pt-6 sm:grid-cols-2">
-            <InfoItem label="Email" value="contact@hopefoundation.org" />
+            <InfoItem label="Email" value={storedUser?.email || "Not set"} />
             <InfoItem
               label="Phone"
-              value="+880 1XXX-XXXXXX"
+              value={storedUser?.phone || "Not set"}
               icon={<Phone size={15} />}
             />
             <InfoItem
               label="Location"
-              value="Dhanmondi, Dhaka"
+              value={storedUser?.service_area || "Not set"}
               icon={<MapPin size={15} />}
             />
             <InfoItem
               label="Registration Status"
-              value="Verified"
+              value={storedUser?.approval_status || "Pending"}
               valueClass="text-[#0F9F76]"
               icon={<CheckCircle2 size={15} />}
             />
-            <InfoItem label="Member Since" value="January 2026" />
+            <InfoItem label="Member Since" value="Account profile" />
           </div>
         </section>
 
@@ -89,27 +87,27 @@ export default function Profile({ role = "donor" }) {
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             <SummaryCard
               title="Food Pickups"
-              value="12"
-              subtitle="Successful pickups"
-              trend="This month"
+              value="—"
+              subtitle="Live rescue totals"
+              trend="API"
               color="emerald"
               icon={<HeartHandshake size={22} />}
               compact
             />
             <SummaryCard
               title="Meals Received"
-              value="245"
-              subtitle="Meals rescued"
-              trend="This month"
+              value="—"
+              subtitle="Live rescue totals"
+              trend="API"
               color="blue"
               icon={<Building2 size={22} />}
               compact
             />
             <SummaryCard
               title="Families Supported"
-              value="86"
-              subtitle="Reached through aid"
-              trend="Growing"
+              value="—"
+              subtitle="Live rescue totals"
+              trend="API"
               color="orange"
               icon={<Users size={22} />}
               compact
@@ -126,7 +124,6 @@ export default function Profile({ role = "donor" }) {
 
   return <DonorProfile />;
 }
-
 function InfoItem({
   label,
   value,
@@ -147,7 +144,6 @@ function InfoItem({
     </div>
   );
 }
-
 function DonorProfile() {
   const user = getStoredUser();
   const fullName = user?.name || "Donor";
@@ -195,15 +191,15 @@ function DonorProfile() {
           <InfoItem label="Email Address" value={email} />
           <InfoItem
             label="Phone Number"
-            value="+880 1XXX-XXXXXX"
+            value={user?.phone || "Not set"}
             icon={<Phone size={15} />}
           />
           <InfoItem
             label="Location"
-            value="Dhaka, Bangladesh"
+            value={user?.service_area || "Not set"}
             icon={<MapPin size={15} />}
           />
-          <InfoItem label="Member Since" value="January 2026" />
+          <InfoItem label="Member Since" value="Account profile" />
         </div>
       </section>
 
@@ -219,33 +215,33 @@ function DonorProfile() {
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
           <SummaryCard
             title="Active Donations"
-            value="8"
-            subtitle="Currently active"
-            trend="+2"
+            value="—"
+            subtitle="Live donation totals"
+            trend="API"
             color="emerald"
             icon={<Package size={22} />}
           />
           <SummaryCard
             title="Completed Donations"
-            value="24"
-            subtitle="Successfully delivered"
-            trend="+5"
+            value="—"
+            subtitle="Live donation totals"
+            trend="API"
             color="blue"
             icon={<CheckCircle2 size={22} />}
           />
           <SummaryCard
             title="NGOs Reached"
-            value="12"
-            subtitle="Partner organizations"
-            trend="+1"
+            value="—"
+            subtitle="Live donation totals"
+            trend="API"
             color="violet"
             icon={<Building2 size={22} />}
           />
           <SummaryCard
             title="Meals Saved"
-            value="420"
-            subtitle="Food rescued"
-            trend="+36"
+            value="—"
+            subtitle="Live donation totals"
+            trend="API"
             color="orange"
             icon={<HeartHandshake size={22} />}
           />
@@ -256,22 +252,8 @@ function DonorProfile() {
         <h2 className="text-xl font-bold text-[color:var(--color-rescue-text)]">
           Recent Activity
         </h2>
-        <div className="mt-5 divide-y divide-[color:var(--color-rescue-border)]">
-          <Activity
-            icon={<Utensils size={18} />}
-            title="Donated Chicken Biryani"
-            detail="15 meals · Dhanmondi, Dhaka"
-          />
-          <Activity
-            icon={<CheckCircle2 size={18} />}
-            title="Donation completed"
-            detail="Vegetable Khichuri was successfully delivered"
-          />
-          <Activity
-            icon={<Handshake size={18} />}
-            title="NGO request accepted"
-            detail="Bread and Pastries donation was requested"
-          />
+        <div className="mt-5 rounded-xl bg-[color:var(--color-rescue-bg)] p-4 text-sm text-[color:var(--color-rescue-text-muted)]">
+          Recent profile activity is available from My Donations.
         </div>
       </section>
     </DashboardShell>
@@ -354,56 +336,38 @@ function VolunteerProfile({ user }) {
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
           <SummaryCard
             title="Assigned Pickups"
-            value="3"
-            subtitle="Current routes"
-            trend="Today"
+            value="—"
+            subtitle="Live pickup totals"
+            trend="API"
             color="emerald"
             icon={<Package size={22} />}
           />
           <SummaryCard
             title="Completed Pickups"
-            value="12"
-            subtitle="Rescued successfully"
-            trend="This month"
+            value="—"
+            subtitle="Live pickup totals"
+            trend="API"
             color="blue"
             icon={<CheckCircle2 size={22} />}
           />
           <SummaryCard
             title="Meals Delivered"
-            value="282"
-            subtitle="Meals moved"
-            trend="Growing"
+            value="—"
+            subtitle="Live pickup totals"
+            trend="API"
             color="violet"
             icon={<HeartHandshake size={22} />}
           />
           <SummaryCard
             title="Active Routes"
-            value="5"
-            subtitle="Available this week"
-            trend="Live"
+            value="—"
+            subtitle="Live pickup totals"
+            trend="API"
             color="orange"
             icon={<MapPin size={22} />}
           />
         </div>
       </section>
     </DashboardShell>
-  );
-}
-
-function Activity({ icon, title, detail }) {
-  return (
-    <div className="flex items-center gap-4 py-4 first:pt-0 last:pb-0">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0F9F76]/15 text-[#0F9F76]">
-        {icon}
-      </div>
-      <div>
-        <p className="text-sm font-semibold text-[color:var(--color-rescue-text)]">
-          {title}
-        </p>
-        <p className="mt-1 text-xs text-[color:var(--color-rescue-text-muted)]">
-          {detail}
-        </p>
-      </div>
-    </div>
   );
 }

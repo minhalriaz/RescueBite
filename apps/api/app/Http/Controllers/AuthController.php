@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\ActivityLog;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -35,9 +36,23 @@ class AuthController extends Controller
             'phone' => $validated['phone'] ?? null,
             'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
+            'approval_status' => in_array($validated['role'], ['ngo', 'volunteer'], true)
+                ? 'pending'
+                : 'approved',
+            'approved_at' => $validated['role'] === 'donor'
+                ? now()
+                : null,
             'beneficiary_preference' => $validated['beneficiary_preference'] ?? null,
             'service_area' => $validated['service_area'] ?? null,
             'api_token_hash' => hash('sha256', $plainToken),
+        ]);
+
+        ActivityLog::create([
+            'actor_id' => $user->id,
+            'action' => 'user_registered',
+            'entity_type' => User::class,
+            'entity_id' => $user->id,
+            'metadata' => ['role' => $user->role],
         ]);
 
         return response()->json([
@@ -54,14 +69,21 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $user = User::query()->where('email', $credentials['email'])->first();
+        $user = User::query()
+            ->where('email', $credentials['email'])
+            ->first();
 
         if (! $user || ! Hash::check($credentials['password'], $user->password)) {
-            return response()->json(['message' => 'Invalid email or password.'], 422);
+            return response()->json([
+                'message' => 'Invalid email or password.',
+            ], 422);
         }
 
         $plainToken = Str::random(64);
-        $user->forceFill(['api_token_hash' => hash('sha256', $plainToken)])->save();
+
+        $user->forceFill([
+            'api_token_hash' => hash('sha256', $plainToken),
+        ])->save();
 
         return response()->json([
             'message' => 'Login successful.',
@@ -72,14 +94,20 @@ class AuthController extends Controller
 
     public function profile(Request $request): JsonResponse
     {
-        return response()->json(['user' => $this->userPayload($request->user())]);
+        return response()->json([
+            'user' => $this->userPayload($request->user()),
+        ]);
     }
 
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->forceFill(['api_token_hash' => null])->save();
+        $request->user()->forceFill([
+            'api_token_hash' => null,
+        ])->save();
 
-        return response()->json(['message' => 'Logged out successfully.']);
+        return response()->json([
+            'message' => 'Logged out successfully.',
+        ]);
     }
 
     private function userPayload(User $user): array
@@ -90,6 +118,8 @@ class AuthController extends Controller
             'email' => $user->email,
             'phone' => $user->phone,
             'role' => $user->role,
+            'approval_status' => $user->approval_status,
+            'approved_at' => $user->approved_at,
             'beneficiary_preference' => $user->beneficiary_preference,
             'service_area' => $user->service_area,
         ];

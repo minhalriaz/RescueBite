@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Donation;
 use App\Models\RescueNotification;
+use App\Models\RescueRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,7 @@ class DonorController extends Controller
         $recent = Donation::query()
             ->where('user_id', $user->id)
             ->where('is_demo', false)
+            ->with(['rescueRequests' => fn ($query) => $query->latest()->limit(1)])
             ->orderByDesc('created_at')
             ->limit(10)
             ->get()
@@ -28,18 +30,16 @@ class DonorController extends Controller
                 'status' => $d->status,
                 'address' => $d->address,
                 'pickup_deadline' => $d->pickup_deadline?->toIso8601String(),
+                'request_status' => $d->rescueRequests->first()?->status,
             ]);
 
-        $stats = DB::table('donations')
-            ->where('user_id', $user->id)
-            ->where('is_demo', false)
-            ->selectRaw("
-                COUNT(CASE WHEN status = 'available' THEN 1 END) as active,
-                COUNT(CASE WHEN status = 'collected' THEN 1 END) as completed,
-                COUNT(CASE WHEN status = 'requested' THEN 1 END) as pending,
-                COUNT(DISTINCT (SELECT COUNT(DISTINCT user_id) FROM notifications WHERE donation_id = donations.id)) as ngos_reached
-            ")
-            ->first();
+        $donations = Donation::query()->where('user_id', $user->id)->where('is_demo', false)->get();
+        $stats = (object) [
+            'active' => $donations->whereIn('status', ['available', 'requested', 'ready_for_pickup'])->count(),
+            'completed' => $donations->where('status', 'completed')->count(),
+            'pending' => RescueRequest::whereIn('donation_id', $donations->pluck('id'))->where('status', 'pending')->count(),
+            'ngos_reached' => RescueRequest::whereIn('donation_id', $donations->pluck('id'))->distinct('ngo_id')->count('ngo_id'),
+        ];
 
         return response()->json([
             'data' => $recent,

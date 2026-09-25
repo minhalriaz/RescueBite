@@ -23,6 +23,7 @@ export default function BrowseFoodDonations() {
   const [donations, setDonations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [requesting, setRequesting] = useState(null);
 
   const fetchDonations = useCallback(async () => {
     setLoading(true);
@@ -47,6 +48,19 @@ export default function BrowseFoodDonations() {
 
     return () => clearTimeout(timer);
   }, [fetchDonations]);
+
+  const requestDonation = async (donation) => {
+    setRequesting(donation.id);
+    setError("");
+    try {
+      await api.requestDonation(donation.id);
+      setDonations((current) => current.filter((item) => item.id !== donation.id));
+    } catch (requestError) {
+      setError(requestError.message || "Unable to request this donation.");
+    } finally {
+      setRequesting(null);
+    }
+  };
 
   const filteredDonations = donations.filter((donation) => {
     const query = search.trim().toLowerCase();
@@ -203,7 +217,7 @@ export default function BrowseFoodDonations() {
         {!loading && !error && filteredDonations.length > 0 && (
           <section className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
             {filteredDonations.map((donation) => (
-              <FoodCard key={donation.id} donation={donation} />
+              <FoodCard key={donation.id} donation={donation} onRequest={requestDonation} requesting={requesting === donation.id} />
             ))}
           </section>
         )}

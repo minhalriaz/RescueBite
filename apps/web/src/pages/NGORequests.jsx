@@ -12,6 +12,7 @@ const STATUS_STYLES = {
   approved: 'bg-blue-100/40 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200',
   available: 'bg-emerald-100/40 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200',
   collected: 'bg-violet-100/40 dark:bg-violet-900/30 text-violet-800 dark:text-violet-200',
+  completed: 'bg-emerald-100/40 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200',
   expired: 'bg-rose-100/40 dark:bg-rose-900/30 text-rose-800 dark:text-rose-200',
 };
 
@@ -21,6 +22,7 @@ const STATUS_ICONS = {
   approved: Truck,
   available: PackageCheck,
   collected: CheckCircle2,
+  completed: CheckCircle2,
   expired: Clock3,
 };
 
@@ -33,7 +35,7 @@ export default function NGORequests() {
     setLoading(true);
     setError('');
     try {
-      const payload = await api.getRequests();
+      const payload = await api.getNgoRequests();
       setRequests(Array.isArray(payload.data) ? payload.data : []);
     } catch (err) {
       setError(err.message || 'Could not load requests.');
@@ -47,9 +49,9 @@ export default function NGORequests() {
     return () => clearTimeout(timer);
   }, [fetchRequests]);
 
-  const pending = requests.filter(r => r.donation?.status === 'available' || r.donation?.status === 'requested');
-  const approved = requests.filter(r => r.donation?.status === 'collected');
-  const completed = requests.filter(r => r.donation?.status === 'expired');
+  const pending = requests.filter(r => r.status === 'pending');
+  const approved = requests.filter(r => r.status === 'approved');
+  const completed = requests.filter(r => r.status === 'completed');
 
   return (
     <DashboardShell role="ngo">
@@ -93,7 +95,7 @@ export default function NGORequests() {
             {requests.map(request => {
               const donation = request.donation;
               if (!donation) return null;
-              const status = donation.status || 'pending';
+              const status = request.status || 'pending';
               const StatusIcon = STATUS_ICONS[status] || Clock3;
               const statusStyle = STATUS_STYLES[status] || 'bg-gray-400 text-white';
 

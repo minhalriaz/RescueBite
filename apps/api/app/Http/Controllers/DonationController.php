@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donation;
+use App\Models\ActivityLog;
 use App\Services\DonationNotificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -62,6 +63,13 @@ class DonationController extends Controller
             ]);
 
             $notificationCount = $notificationService->notifyMatchingNgos($donation);
+
+            ActivityLog::create([
+                'actor_id' => $user->id,
+                'action' => 'donation_created',
+                'entity_type' => Donation::class,
+                'entity_id' => $donation->id,
+            ]);
 
             return [$donation, $notificationCount];
         });

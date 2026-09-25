@@ -8,7 +8,7 @@ const STATUS_COLORS = {
   expired: 'bg-rose-500 text-white',
 };
 
-export default function FoodCard({ donation }) {
+export default function FoodCard({ donation, onRequest, requesting = false }) {
   const isAvailable = donation.status === 'available';
   const statusColor = STATUS_COLORS[donation.status] || 'bg-gray-400 text-white';
 
@@ -48,14 +48,15 @@ export default function FoodCard({ donation }) {
           <button
             type="button"
             disabled={!isAvailable}
-            onClick={() => window.alert(`Pickup request started for ${donation.food}`)}
+            onClick={() => onRequest?.(donation)}
+            aria-busy={requesting}
             className={`rounded-xl px-3 py-3 text-xs font-bold shadow transition ${
               isAvailable
                 ? 'bg-[#0F9F76] text-white hover:bg-[#0C8562]'
                 : 'bg-[color:var(--color-rescue-accent-soft)] text-[color:var(--color-rescue-text-muted)] cursor-not-allowed'
             }`}
           >
-            {isAvailable ? 'Request Pickup' : 'Not Available'}
+            {requesting ? 'Requesting...' : isAvailable ? 'Request Food' : 'Not Available'}
           </button>
         </div>
       </div>

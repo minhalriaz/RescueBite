@@ -19,7 +19,14 @@ export default function AdminSidebar({ open, onClose }) {
   const navigate = useNavigate();
 
   const logout = async () => {
-    try { await api.logout(); } catch {}
+    try {
+      await api.logout();
+    } catch {
+      clearSession();
+      navigate("/login");
+      return;
+    }
+
     clearSession();
     navigate("/login");
   };

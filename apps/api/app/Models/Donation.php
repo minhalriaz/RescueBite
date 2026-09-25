@@ -40,4 +40,9 @@ class Donation extends Model
     {
         return $this->hasMany(RescueNotification::class);
     }
+
+    public function rescueRequests(): HasMany
+    {
+        return $this->hasMany(RescueRequest::class);
+    }
 }

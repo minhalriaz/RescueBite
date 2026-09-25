@@ -22,6 +22,12 @@ class RequireRole
             ], 403);
         }
 
+        if (in_array($user->role, ['ngo', 'volunteer'], true) && $user->approval_status !== 'approved') {
+            return new JsonResponse([
+                'message' => 'Your account must be approved before using this resource.',
+            ], 403);
+        }
+
         return $next($request);
     }
 }

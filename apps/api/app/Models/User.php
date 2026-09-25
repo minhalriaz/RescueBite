@@ -19,11 +19,16 @@ class User extends Model
         'beneficiary_preference',
         'service_area',
         'api_token_hash',
+        'approval_status',
+        'approved_at',
     ];
 
     protected $hidden = [
         'password',
         'api_token_hash',
+    ];
+    protected $casts = [
+    'approved_at' => 'datetime',
     ];
 
     public function donations(): HasMany
@@ -34,5 +39,15 @@ class User extends Model
     public function rescueNotifications(): HasMany
     {
         return $this->hasMany(RescueNotification::class);
+    }
+
+    public function rescueRequests(): HasMany
+    {
+        return $this->hasMany(RescueRequest::class, 'ngo_id');
+    }
+
+    public function pickupTasks(): HasMany
+    {
+        return $this->hasMany(PickupTask::class, 'volunteer_id');
     }
 }

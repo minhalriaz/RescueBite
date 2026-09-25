@@ -48,7 +48,7 @@ class DonationController extends Controller
         $validated = $request->validate([
             'food' => ['required', 'string', 'max:190'],
             'quantity' => ['required', 'string', 'max:120'],
-            'beneficiary_type' => ['required', Rule::in(['human', 'animal'])],
+            'beneficiary_type' => ['required', 'string', Rule::in(['human', 'animal'])],
             'pickup_deadline' => ['required', 'date', 'after:now'],
             'address' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:2000'],
